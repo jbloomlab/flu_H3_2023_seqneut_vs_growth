@@ -13,3 +13,10 @@ Input data are in [./data/](data):
    - *Collection Date* from *Jan 1, 2023* to *Jun 30, 2024*
    - *Segment* set to *4* (hemagglutinin)
    - *Lab Passaged* set to *Exclude*
+
+ - [data/gisaid_flu_h3_prots.fa](data/gisaid_flu_h3_prots.fa): (**due to GISAID data sharing rules, this file is not tracked in the GitHub repository**) set of sequences downloaded from [GISAID](https://gisaid.org/) EpiFlu on Sept-5-2024 selecting the following options:
+   - Influenza A, H3N2
+   - Host of human
+   - *Collection Date* from *Jan 1, 2023* to *Jun 30, 2024*
+   - Only keeping *original* sequences (excluding lab passaged)
+   - Downloading just HA protein sequences.

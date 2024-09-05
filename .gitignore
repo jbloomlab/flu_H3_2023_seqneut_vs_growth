@@ -3,4 +3,6 @@
 *.out
 _*
 
+data/gisaid_*.fa
+
 results

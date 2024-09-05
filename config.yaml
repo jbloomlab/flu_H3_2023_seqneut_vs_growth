@@ -15,3 +15,6 @@ prot_sets:
   ncbi_ectodomain:
     prot_set: data/ncbi_flu_h3_prots.fa
     trim: [20, 533]
+  gisaid_ectodomain:
+    prot_set: data/gisaid_flu_h3_prots.fa
+    trim: [20, 533]
