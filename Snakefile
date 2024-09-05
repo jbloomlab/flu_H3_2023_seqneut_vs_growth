@@ -8,7 +8,8 @@ rule all:
     """Target rule."""
     input:
         expand(
-            "results/strain_counts/{prot_set}_counts.csv", prot_set=config["prot_sets"],
+            "results/strain_counts/{prot_set}_counts_by_date.csv",
+            prot_set=config["prot_sets"],
         )
 
 
@@ -18,7 +19,8 @@ rule strain_counts:
         strain_prots=config["strain_prots"],
         prot_set=lambda wc: config["prot_sets"][wc.prot_set]["prot_set"],
     output:
-        counts="results/strain_counts/{prot_set}_counts.csv",
+        counts_overall="results/strain_counts/{prot_set}_counts_overall.csv",
+        counts_by_date="results/strain_counts/{prot_set}_counts_by_date.csv",
         strain_matches="results/strain_counts/{prot_set}_strain_matches.csv",
     params:
         trim_strain_prots=lambda wc: config["prot_sets"][wc.prot_set]["trim"],

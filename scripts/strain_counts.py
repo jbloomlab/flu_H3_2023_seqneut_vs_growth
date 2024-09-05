@@ -65,21 +65,33 @@ n_acc = strain_matches["accession"].nunique()
 assert len(strain_matches) == n_acc, f"{len(strain_matches)=}, {n_acc=}" 
 
 print(f"Read {len(strain_matches)} sequences.")
-print("Here are number matching each strain:")
-print(
+
+overall_counts = (
     strain_matches
-    .groupby("variant")
+    .groupby("variant", as_index=False)
     .aggregate(n_sequences=pd.NamedAgg("accession", "nunique"))
+    .merge(
+        pd.Series(strain_prots).rename_axis("variant").rename("sequence").reset_index(),
+        on="variant",
+        how="outer",
+        validate="one_to_one",
+    )
+    .assign(n_sequences=lambda x: x["n_sequences"].fillna(0).astype(int))
     .sort_values("n_sequences", ascending=False)
 )
+
+print("Here are overall number matching each strain:")
+print(overall_counts)
+print(f"Writing to {snakemake.output.counts_overall}")
+overall_counts.to_csv(snakemake.output.counts_overall, index=False)
 
 print(f"\nWriting all strain matches to {snakemake.output.strain_matches}")
 strain_matches.to_csv(snakemake.output.strain_matches, index=False)
 
-print(f"\nWriting all strain counts to {snakemake.output.counts}")
+print(f"\nWriting strain counts by date to {snakemake.output.counts_by_date}")
 (
     strain_matches
     .groupby(["variant", "date"], as_index=False)
     .aggregate(sequences=pd.NamedAgg("accession", "nunique"))
-    .to_csv(snakemake.output.counts, index=False)
+    .to_csv(snakemake.output.counts_by_date, index=False)
 )
