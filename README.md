@@ -1,6 +1,16 @@
-# Analysis of growth rates of influenza viruses with HAs in H3 2023-2024 sequencing-based neutralization libraries
+# Growth rates of influenza viruses with HAs in H3 2023-2024 sequencing-based neutralization libraries
 
-## Input data
+## Running the pipeline
+Build the `conda` environment in [environment.yml](environment.yml), then activate it and run the `snakemake` pipeline in [Snakefile](Snakefile), eg:
+
+    conda activate flu_H3_2023-2024_strains_MLR
+    snakemake -j 8 --software-deployment-method conda
+
+If you are using the Hutch cluster, you can also just run via the [run_Hutch_cluster.bash](run_Hutch_cluster.bash) script, which can be submitted via `sbatch`.
+
+## Input data and configuration
+The configuration is specified in [config.yaml](config.yaml)
+
 Input data are in [./data/](data):
 
  - [data/H3_library_constructs_protein.fasta](data/H3_library_constructs_protein.fasta): file from Caroline with the strains in the library. Note that this file has the full chimeric HAs used in the sequencing-based neutralization assay, which have non-native signal peptide and endodomain.
@@ -20,3 +30,26 @@ Input data are in [./data/](data):
    - *Collection Date* from *Jan 1, 2022* to *Sept 1, 2024*
    - Only keeping *original* sequences (excluding lab passaged)
    - Downloading just HA protein sequences.
+
+## Workflow and results
+The results are placed in [./results/](results), some of which may not be tracked in this GitHub repository.
+Essentially, the workflow proceeds as follows:
+
+#### Get counts of sequences matching each strain
+This step is executed by the rule called `strain_counts` in [Snakefile](Snakefile).
+
+For each strain in the library (specified under `strain_prots` in [config.yaml](config.yaml)), we find how many naturally occurring sequences for each date match to that sequence.
+We look for matches in the sets of naturally occurring sequence specified under `protsets` in [config.yaml](config.yaml).
+To determine if a sequence is a match to a protein in the library, we first trim the library proteins according to the boundaries specified in `trim` under `protsets`.
+At least some trimming is important because the library strains have chimeric signal peptides and endodomains (transmembrane domains and cytoplasmic tails).
+We then go through the natural sequences and see which ones match (contain a substring) that matches the trimmed library protein, allowing the number of differences (single amino-acid substitutions or indels) specified under `protset_maxdiffs` in [config.yaml](config.yaml).
+
+Note that if the proteins in the library are sufficiently similar and/or enough differences are allowed, the same natural sequence may match multiple library proteins, in which case it is assigned to each.
+
+The results of this rule are in [./results/strain_counts/](results/strain_counts) with files named as:
+  - `<protset>_<maxdiff>_counts_overall.csv`: overall number of sequences that match to each library protein (variant) for each `protset` and `maxdiff`.
+  - `<protset>_<maxdiff>_counts_by_date.csv`: number of sequences that match to each library protein for each date. This file can serve as input to [evofr](https://github.com/blab/evofr).
+  - `<protset>_<maxdiff>_strain_matches.csv`: the matches for each library protein for each sequence
+
+Note that sequences that do not match any library proteins are assigned to the variant *other*.
+
