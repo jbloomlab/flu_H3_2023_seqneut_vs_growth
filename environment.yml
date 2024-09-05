@@ -1,0 +1,17 @@
+name: flu_H3_2023-2024_strains_MLR
+
+channels:
+  - conda-forge
+  - bioconda
+
+dependencies:
+  - altair=5.4
+  - biopython=1.84
+  - evofr=0.1.23
+  - jupyterlab
+  - pandas=2.2
+  - papermill=2.6
+  - pip
+  - pyarrow
+  - python=3.12
+  - snakemake=8

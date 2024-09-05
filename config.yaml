@@ -1,0 +1,17 @@
+# Protein sequences in the library. Note that this file currently has
+# the full chimeric HAs used in the sequencing-based neutralization assay,
+# which have non-native signal peptide and endodomain.
+strain_prots: data/H3_library_constructs_protein.fasta
+
+# Specify protein sequences to search for matches to `strain_prots` to get the
+# counts of each strain (variant) at each time.
+# The `trim` entry below specifies to trim the `strain_prots` to that range, and
+# then look for matches that contain that trimeed strain protein.
+# This can be done to just look at a specific region (eg, ectodomain or HA1).
+# Also keep in mind the strains in the libraries are engineered to havae a chimeric
+# signal peptide and endodomain so you probably do not want to require a match to
+# that. The trimming is done to indicated range (1, 2, ... numbering, inclusive).
+prot_sets:
+  ncbi_ectodomain:
+    prot_set: data/ncbi_flu_h3_prots.fa
+    trim: [20, 533]
