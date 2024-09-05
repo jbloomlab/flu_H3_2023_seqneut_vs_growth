@@ -1,5 +1,9 @@
 # Growth rates of influenza viruses with HAs in H3 2023-2024 sequencing-based neutralization libraries
 
+The overall goal of this analysis is to estimate a growth rate in the 2023-2024 timeframe (probably centered around mid to late 2023) for influenza viruses with the HA proteins in a [sequencing-based neutralization assay](https://www.biorxiv.org/content/10.1101/2024.03.08.584176v1) library to examine how neutralization titers against the strains are related to their growth rates.
+
+In order to do that, it is necessary to first figure out sequence counts over time for sequences that "match" (by some reasonable definition) the strains in the library, and then estimate their growth rates such as using the approaches implemented in [evofr](https://github.com/blab/evofr).
+
 ## Running the pipeline
 Build the `conda` environment in [environment.yml](environment.yml), then activate it and run the `snakemake` pipeline in [Snakefile](Snakefile), eg:
 
