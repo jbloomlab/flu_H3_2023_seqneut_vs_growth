@@ -11,16 +11,24 @@ strain_prots: data/H3_library_constructs_protein.fasta
 # Also keep in mind the strains in the libraries are engineered to havae a chimeric
 # signal peptide and endodomain so you probably do not want to require a match to
 # that. The trimming is done to indicated range (1, 2, ... numbering, inclusive).
-prot_sets:
-  ncbi_ectodomain:
-    prot_set: data/ncbi_flu_h3_prots.fa
+protsets:
+  ncbi-ectodomain:
+    protset: data/ncbi_flu_h3_prots.fa
     trim: [20, 533]
-  gisaid_ectodomain:
-    prot_set: data/gisaid_flu_h3_prots.fa
+  gisaid-ectodomain:
+    protset: data/gisaid_flu_h3_prots.fa
     trim: [20, 533]
-  ncbi_ha1:
-    prot_set: data/ncbi_flu_h3_prots.fa
+  ncbi-ha1:
+    protset: data/ncbi_flu_h3_prots.fa
     trim: [20, 348]
-  gisaid_ha1:
-    prot_set: data/gisaid_flu_h3_prots.fa
+  gisaid-ha1:
+    protset: data/gisaid_flu_h3_prots.fa
     trim: [20, 348]
+
+# Maximum number of difference between strain and protein in set allowed
+# to still call it a match. A protein in a `protset` is a match if it
+# has <= this many differences to the strain. Note that when the number
+# of allowed differences is >1, in principle the same protein can match
+# multiple strains. A difference is any of a single-amino-acid substitution,
+# insertion, or deletion.
+protset_maxdiffs: [0, 1]

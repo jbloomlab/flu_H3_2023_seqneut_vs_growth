@@ -1,7 +1,7 @@
 """Get counts of sequences for each strain."""
 
 
-import re
+import regex
 import sys
 
 import Bio.SeqIO
@@ -26,17 +26,23 @@ for seq in Bio.SeqIO.parse(snakemake.input.strain_prots, "fasta"):
     s = str(seq.seq).upper()
     while s.endswith("*"):  # remove trailing stop codons
         s = s[: -1]
-    assert re.fullmatch(f"[{aas}]+", s), f"{name=} has invalid residues:\n{s}\n{seq}"
+    assert regex.fullmatch(f"[{aas}]+", s), f"{name=} has invalid residues:\n{s}\n{seq}"
     assert len(s) >= trim_end, f"{trim_end=}, {len(s)=}"
     strain_prots[name] = s[trim_start - 1: trim_end]
 print(f"Read {len(strain_prots)=} strain proteins\n")
 assert len(strain_prots) == len(set(strain_prots.values()))
 
-print(f"Reading protein set from {snakemake.input.prot_set}")
+maxdiff = snakemake.wildcards.maxdiff
+strain_regexes = {
+    strain_name: regex.compile(f"(?:{strain_seq}){{e<={maxdiff}}}")
+    for (strain_name, strain_seq) in strain_prots.items()
+}
+
+print(f"Reading proteins from {snakemake.input.protset}, matching with {maxdiff=}")
 strain_match_records = []
 assert "other" not in strain_prots
 accessions = set()
-for prot in Bio.SeqIO.parse(snakemake.input.prot_set, "fasta"):
+for prot in Bio.SeqIO.parse(snakemake.input.protset, "fasta"):
 
     p = str(prot.seq).upper()
 
@@ -50,19 +56,17 @@ for prot in Bio.SeqIO.parse(snakemake.input.prot_set, "fasta"):
         continue  # duplicate accession
     accessions.add(accession)
 
-    for strain_name, strain_seq in strain_prots.items():
-        if strain_seq in p:
+    foundmatch = False
+    for strain_name, strain_regex in strain_regexes.items():
+        if strain_regex.search(p):
             strain_match_records.append((strain_name, accession, date))
-            break
-    else:
+            foundmatch = True
+    if not foundmatch:
         strain_match_records.append(("other", accession, date))
 
 strain_matches = pd.DataFrame(
     strain_match_records, columns=["variant", "accession", "date"]
 )
-
-n_acc = strain_matches["accession"].nunique()
-assert len(strain_matches) == n_acc, f"{len(strain_matches)=}, {n_acc=}" 
 
 print(f"Read {len(strain_matches)} sequences.")
 
