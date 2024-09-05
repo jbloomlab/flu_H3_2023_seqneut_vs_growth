@@ -5,4 +5,7 @@ _*
 
 data/gisaid_*.fa
 
-results
+results/*
+!results/strain_counts
+results/strain_counts/*
+!results/strain_counts/*.csv
