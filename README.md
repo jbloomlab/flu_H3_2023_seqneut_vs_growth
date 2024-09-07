@@ -47,8 +47,8 @@ We look for matches in the sets of naturally occurring sequence specified under 
 To determine if a sequence is a match to a protein in the library, we first trim the library proteins according to the boundaries specified in `trim` under `protsets`.
 At least some trimming is important because the library strains have chimeric signal peptides and endodomains (transmembrane domains and cytoplasmic tails).
 We then go through the natural sequences and see which ones match (contain a substring) that matches the trimmed library protein, allowing the number of differences (single amino-acid substitutions or indels) specified under `protset_maxdiffs` in [config.yaml](config.yaml).
-
-Note that if the proteins in the library are sufficiently similar and/or enough differences are allowed, the same natural sequence may match multiple library proteins, in which case it is assigned to each.
+If there are multiple matches, we take the best one (fewest differences).
+If there are multiple matches with the same number of differences, we assign fractional weights to the matching (eg, a sequence that matrches two library strains is assigned a weight of 0.5 to each).
 
 The results of this rule are in [./results/strain_counts/](results/strain_counts) with files named as:
   - `<protset>_<maxdiff>_counts_overall.csv`: overall number of sequences that match to each library protein (variant) for each `protset` and `maxdiff`.

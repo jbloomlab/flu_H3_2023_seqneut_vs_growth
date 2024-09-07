@@ -1,6 +1,7 @@
 """Get counts of sequences for each strain."""
 
 
+import collections
 import regex
 import sys
 
@@ -32,9 +33,10 @@ for seq in Bio.SeqIO.parse(snakemake.input.strain_prots, "fasta"):
 print(f"Read {len(strain_prots)=} strain proteins\n")
 assert len(strain_prots) == len(set(strain_prots.values()))
 
-maxdiff = snakemake.wildcards.maxdiff
+# define regexes allowing fuzzy matching but getting best match
+maxdiff = int(snakemake.wildcards.maxdiff)
 strain_regexes = {
-    strain_name: regex.compile(f"(?:{strain_seq}){{e<={maxdiff}}}")
+    strain_name: regex.compile(f"(?b)(?:{strain_seq}){{e<={maxdiff}}}")
     for (strain_name, strain_seq) in strain_prots.items()
 }
 
@@ -56,24 +58,32 @@ for prot in Bio.SeqIO.parse(snakemake.input.protset, "fasta"):
         continue  # duplicate accession
     accessions.add(accession)
 
-    foundmatch = False
+    matches = collections.defaultdict(list)
     for strain_name, strain_regex in strain_regexes.items():
-        if strain_regex.search(p):
-            strain_match_records.append((strain_name, accession, date))
-            foundmatch = True
-    if not foundmatch:
-        strain_match_records.append(("other", accession, date))
+        if m := strain_regex.search(p):
+            ndiff = sum(m.fuzzy_counts)
+            assert ndiff <= maxdiff
+            matches[ndiff].append((strain_name, accession, date))
+    if matches:
+        # get best match
+        matchlist = sorted(matches.items())[0][1]
+        weight = 1 / len(matchlist)
+        for tup in matchlist:
+            strain_match_records.append((*tup, weight))
+    else:
+        strain_match_records.append(("other", accession, date, 1))
 
 strain_matches = pd.DataFrame(
-    strain_match_records, columns=["variant", "accession", "date"]
+    strain_match_records, columns=["variant", "accession", "date", "weight"]
 )
 
 print(f"Read {len(strain_matches)} sequences.")
+assert strain_matches["accession"].nunique() == strain_matches["weight"].sum()
 
 overall_counts = (
     strain_matches
     .groupby("variant", as_index=False)
-    .aggregate(n_sequences=pd.NamedAgg("accession", "nunique"))
+    .aggregate(n_sequences=pd.NamedAgg("weight", "sum"))
     .merge(
         pd.Series(strain_prots).rename_axis("variant").rename("sequence").reset_index(),
         on="variant",
@@ -96,6 +106,6 @@ print(f"\nWriting strain counts by date to {snakemake.output.counts_by_date}")
 (
     strain_matches
     .groupby(["variant", "date"], as_index=False)
-    .aggregate(sequences=pd.NamedAgg("accession", "nunique"))
+    .aggregate(sequences=pd.NamedAgg("weight", "sum"))
     .to_csv(snakemake.output.counts_by_date, index=False)
 )
