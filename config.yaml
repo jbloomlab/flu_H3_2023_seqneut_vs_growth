@@ -32,3 +32,15 @@ protsets:
 # multiple strains. A difference is any of a single-amino-acid substitution,
 # insertion, or deletion.
 protset_maxdiffs: [0, 1]
+
+# For MLR, only include strains with at least this many counts over the
+# entire window
+min_counts: 50
+
+# For counts chart associated with MLR, plot counts as a rolling mean +/ this many days
+plot_window_frame_days: 14
+
+# For MLR, fit to each of the following date ranges, specified as `<start>-to-<end>`.
+dateranges:
+  - 2022-01-01-to-2024-08-01
+  - 2023-01-01-to-2024-03-01

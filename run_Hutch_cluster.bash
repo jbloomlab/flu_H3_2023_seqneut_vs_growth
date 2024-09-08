@@ -6,7 +6,8 @@ set -euo pipefail
 
 printf "Running snakemake...\n"
 snakemake \
-    -j 4 \
+    -j 8 \
     --software-deployment-method conda \
+    --keep-going \
     --rerun-incomplete
 printf "Run of snakemake complete.\n"
