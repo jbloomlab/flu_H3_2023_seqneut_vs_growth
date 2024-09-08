@@ -44,6 +44,7 @@ print(f"Reading proteins from {snakemake.input.protset}, matching with {maxdiff=
 strain_match_records = []
 assert "other" not in strain_prots
 accessions = set()
+n_incomplete_date = 0
 for prot in Bio.SeqIO.parse(snakemake.input.protset, "fasta"):
 
     p = str(prot.seq).upper()
@@ -52,6 +53,13 @@ for prot in Bio.SeqIO.parse(snakemake.input.protset, "fasta"):
         accession, _, _, date = (t.strip() for t in prot.description.split("|"))
     except ValueError:
         raise ValueError(f"Problem parsing header {prot.description=}")
+
+    if not regex.fullmatch(r"\d{4}\-\d{2}\-\d{2}", date):
+        if regex.fullmatch(r"\d{4}(?:\-\d{2})?", date):
+            n_incomplete_date += 1
+            continue
+        else:
+            raise ValueError(f"invalid {date=} for {prot.description=}")
 
     assert pd.notnull(accession), prot.description
     if accession in accessions:
@@ -72,6 +80,8 @@ for prot in Bio.SeqIO.parse(snakemake.input.protset, "fasta"):
             strain_match_records.append((*tup, weight))
     else:
         strain_match_records.append(("other", accession, date, 1))
+
+print(f"Dropped {n_incomplete_date} for having an incomplete date")
 
 strain_matches = pd.DataFrame(
     strain_match_records, columns=["variant", "accession", "date", "weight"]

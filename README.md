@@ -49,6 +49,7 @@ At least some trimming is important because the library strains have chimeric si
 We then go through the natural sequences and see which ones match (contain a substring) that matches the trimmed library protein, allowing the number of differences (single amino-acid substitutions or indels) specified under `protset_maxdiffs` in [config.yaml](config.yaml).
 If there are multiple matches, we take the best one (fewest differences).
 If there are multiple matches with the same number of differences, we assign fractional weights to the matching (eg, a sequence that matrches two library strains is assigned a weight of 0.5 to each).
+Note that we also require these sequences to have a complete date in the `YYYY-MM-DD` format.
 
 The results of this rule are in [./results/strain_counts/](results/strain_counts) with files named as:
   - `<protset>_<maxdiff>_counts_overall.csv`: overall number of sequences that match to each library protein (variant) for each `protset` and `maxdiff`.
