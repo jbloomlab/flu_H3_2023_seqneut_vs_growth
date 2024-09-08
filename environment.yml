@@ -8,6 +8,7 @@ dependencies:
   - altair=5.4
   - biopython=1.84
   - evofr=0.1.23
+  - ipywidgets
   - jupyterlab
   - pandas=2.2
   - papermill=2.6
