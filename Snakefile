@@ -8,7 +8,7 @@ rule all:
     """Target rule."""
     input:
         expand(
-            "results/strain_counts/{protset}_{maxdiff}_counts_by_date.csv",
+            "results/mlr_growth/mlr_growth_advantage_{protset}_{maxdiff}.csv",
             protset=config["protsets"],
             maxdiff=config["protset_maxdiffs"],
         )
@@ -31,3 +31,17 @@ rule strain_counts:
         "environment.yml"
     script:
         "scripts/strain_counts.py"
+
+
+rule mlr_growth:
+    """Fit MLR estimates of growth."""
+    input:
+        counts_by_date="results/strain_counts/{protset}_{maxdiff}_counts_by_date.csv",
+    output:
+        growth="results/mlr_growth/mlr_growth_advantage_{protset}_{maxdiff}.csv",
+    log:
+        notebook="results/mlr_growth/mlr_growth_{protset}_{maxdiff}.ipynb",
+    conda:
+        "environment.yml"
+    notebook:
+        "notebooks/mlr_growth.py.ipynb"
