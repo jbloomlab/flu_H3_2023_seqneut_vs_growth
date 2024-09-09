@@ -40,9 +40,11 @@ rule mlr:
         counts_by_date="results/strain_counts/{protset}_{maxdiff}_counts_by_date.csv",
     output:
         counts_chart="results/mlr/strain_counts_{protset}_{maxdiff}_{daterange}.html",
+        counts_to_fit="results/mlr/counts_to_fit_{protset}_{maxdiff}_{daterange}.csv",
     params:
         min_counts=config["min_counts"],
         plot_window_frame_days=config["plot_window_frame_days"],
+        pivot_strain=config["pivot_strain"],
     log:
         notebook="results/mlr/mlr_{protset}_{maxdiff}_{daterange}.ipynb",
     conda:

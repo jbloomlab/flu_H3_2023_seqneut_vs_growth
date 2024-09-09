@@ -44,3 +44,9 @@ plot_window_frame_days: 14
 dateranges:
   - 2022-01-01-to-2024-08-01
   - 2023-01-01-to-2024-03-01
+
+# The "pivot" strain for MLR. Fitness differences are computed relative to this strain,
+# although the relative differences do not depend on the choice here. Typically you might
+# want to choose some abundant strain. You can also set to null and then an arbitrary strain
+# will be chosen.
+pivot_strain: A/Ontario/RV00796/2023
