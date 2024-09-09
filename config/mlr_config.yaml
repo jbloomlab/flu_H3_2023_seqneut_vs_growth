@@ -1,0 +1,26 @@
+#These data options are over-ridden when calling run-mlr-model.py but are expected by MLRConfig
+data:
+  name: "MLR" # Model name
+  case_path: "data/test/prepared_cases.tsv"
+  seq_path: "results/H3N2/location/variant_seq_counts_subyr_subloc.tsv"
+  aggregation_frequency: "2W-SUN"
+
+settings:
+  fit: true # Fit the model?
+  save: true # Save model state?
+  load: false # Load old model?
+  export_json: true  # Export model results as json
+  ps: [0.5, 0.8, 0.95] # HPDI intervals to be exported
+
+model:
+  pool_scale: 0.25 # between 0.1 to 0.5
+  generation_time: 3.1 # range: 2.2–4.0 days (Carrat et al., 2008 https://academic.oup.com/aje/article/167/7/775/83777)
+  pivot: "A/Singapore/NUH0526/2023"
+  hierarchical: false # Keep hierarchical for analysis across regions
+
+inference:
+  method: "NUTS" # Set to 'MAP' for maximum likelihood-style inference. Set to 'NUTS' for Bayesian inference.
+  iters: 50000 # Number of iterations for SVI
+  lr: 4e-4 # Learning rate for the model
+  num_warmup: 200
+  num_samples: 200
