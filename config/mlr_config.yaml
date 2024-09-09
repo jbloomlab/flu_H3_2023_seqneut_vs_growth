@@ -15,7 +15,7 @@ settings:
 model:
   pool_scale: 0.25 # between 0.1 to 0.5
   generation_time: 3.1 # range: 2.2–4.0 days (Carrat et al., 2008 https://academic.oup.com/aje/article/167/7/775/83777)
-  pivot: "A/Singapore/NUH0526/2023"
+  pivot: "J"
   hierarchical: false # Keep hierarchical for analysis across regions
 
 inference:
