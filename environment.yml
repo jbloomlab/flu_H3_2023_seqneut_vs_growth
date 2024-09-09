@@ -9,6 +9,8 @@ dependencies:
   - biopython=1.84
   - evofr=0.1.23
   - ipywidgets
+  - jax=0.4.28
+  - jaxlib=0.4.28
   - jupyterlab
   - pandas=2.2
   - papermill=2.6
@@ -16,4 +18,5 @@ dependencies:
   - pyarrow
   - python=3.12
   - regex=2024.7.24
-  - snakemake=8
+  - seaborn=0.13
+  - snakemake=8.18
