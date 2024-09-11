@@ -9,8 +9,8 @@ dependencies:
   - biopython=1.84
   - evofr=0.1.23
   - ipywidgets
-  - jax=0.4.28
-  - jaxlib=0.4.28
+  - jax
+  - jaxlib=*=cpu*
   - jupyterlab
   - pandas=2.2
   - papermill=2.6
