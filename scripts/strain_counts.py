@@ -14,7 +14,7 @@ sys.stdout = sys.stderr = log = open(snakemake.log[0], "w")
 
 aas = "ACDEFGHIKLMNPQRSTVWY"
 
-trim_start, trim_end = snakemake.params.trim_strain_prots
+trim_start, trim_end = snakemake.params.trim
 assert 1 <= trim_start < trim_end
 
 print(f"Reading strain_prots from {snakemake.input.strain_prots}")
@@ -34,7 +34,7 @@ print(f"Read {len(strain_prots)=} strain proteins\n")
 assert len(strain_prots) == len(set(strain_prots.values()))
 
 # define regexes allowing fuzzy matching but getting best match
-maxdiff = int(snakemake.wildcards.maxdiff)
+maxdiff = int(snakemake.params.maxdiff)
 strain_regexes = {
     strain_name: regex.compile(f"(?b)(?:{strain_seq}){{e<={maxdiff}}}")
     for (strain_name, strain_seq) in strain_prots.items()

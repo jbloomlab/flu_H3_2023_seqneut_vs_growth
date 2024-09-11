@@ -8,10 +8,9 @@ rule all:
     """Target rule."""
     input:
         expand(
-            "results/mlr/strain_counts_{protset}_{maxdiff}_{daterange}.html",
+            "results/mlr/mlr_{protset}_{mlrfit}.html",
             protset=config["protsets"],
-            maxdiff=config["protset_maxdiffs"],
-            daterange=config["dateranges"],
+            mlrfit=config["mlrfits"],
         )
 
 
@@ -21,13 +20,14 @@ rule strain_counts:
         strain_prots=config["strain_prots"],
         protset=lambda wc: config["protsets"][wc.protset]["protset"],
     output:
-        counts_overall="results/strain_counts/{protset}_{maxdiff}_counts_overall.csv",
-        counts_by_date="results/strain_counts/{protset}_{maxdiff}_counts_by_date.csv",
-        strain_matches="results/strain_counts/{protset}_{maxdiff}_strain_matches.csv",
+        counts_overall="results/strain_counts/{protset}_counts_overall.csv",
+        counts_by_date="results/strain_counts/{protset}_counts_by_date.csv",
+        strain_matches="results/strain_counts/{protset}_strain_matches.csv",
     params:
-        trim_strain_prots=lambda wc: config["protsets"][wc.protset]["trim"],
+        trim=lambda wc: config["protsets"][wc.protset]["trim"],
+        maxdiff=lambda wc: config["protsets"][wc.protset]["maxdiff"],
     log:
-        "results/logs/strain_counts_{protset}_{maxdiff}.txt",
+        "results/logs/strain_counts_{protset}.txt",
     conda:
         "environment.yml"
     script:
@@ -37,14 +37,20 @@ rule strain_counts:
 rule mlr:
     """Fit MLR estimates of fitness (growth) advantages."""
     input:
-        counts_by_date="results/strain_counts/{protset}_{maxdiff}_counts_by_date.csv",
+        counts_by_date="results/strain_counts/{protset}_counts_by_date.csv",
     output:
-        counts_chart="results/mlr/strain_counts_{protset}_{maxdiff}_{daterange}.html",
+        chart="results/mlr/mlr_{protset}_{mlrfit}.html",
+        counts_to_fit="results/mlr/counts_to_fit_{protset}_{mlrfit}.csv",
+        growth_advantages="results/mlr/growth_advantages_{protset}_{mlrfit}.csv",
     params:
-        min_counts=config["min_counts"],
-        plot_window_frame_days=config["plot_window_frame_days"],
+        date_start=lambda wc: config["mlrfits"][wc.mlrfit]["date_start"],
+        date_end=lambda wc: config["mlrfits"][wc.mlrfit]["date_end"],
+        min_counts=lambda wc: config["mlrfits"][wc.mlrfit]["min_counts"],
+        keep_not_in_library=lambda wc: config["mlrfits"][wc.mlrfit]["keep_not_in_library"],
+        keep_insufficient_counts=lambda wc: config["mlrfits"][wc.mlrfit]["keep_insufficient_counts"],
+        **config["mlr_settings"],
     log:
-        notebook="results/mlr/mlr_{protset}_{maxdiff}_{daterange}.ipynb",
+        notebook="results/mlr/mlr_{protset}_{mlrfit}.ipynb",
     conda:
         "environment.yml"
     notebook:

@@ -5,42 +5,91 @@ strain_prots: data/H3_library_constructs_protein.fasta
 
 # Specify protein sequences to search for matches to `strain_prots` to get the
 # counts of each strain (variant) at each time.
+#
+# The `protset` key specifies the set of proteins to look for matches in.
+#
 # The `trim` entry below specifies to trim the `strain_prots` to that range, and
-# then look for matches that contain that trimeed strain protein.
+# then look for matches that contain that trimmed strain protein in `protset`.
 # This can be done to just look at a specific region (eg, ectodomain or HA1).
-# Also keep in mind the strains in the libraries are engineered to havae a chimeric
+# Also keep in mind the strains in the libraries are engineered to have a chimeric
 # signal peptide and endodomain so you probably do not want to require a match to
 # that. The trimming is done to indicated range (1, 2, ... numbering, inclusive).
+# 
+# The `maxdiff` parameter specifies how many differences a protein in `protset`
+# can have from the strain. A protein in a `protset` is a match if it
+# has <= this many differences to the strain. We take the best match(es) for
+# each protein, and if it matches multiple strains they are each
+# assigned a fractional count. A differences is any of a single amino-acid
+# substitution, insertion, or deletion.
 protsets:
-  ncbi-ectodomain:
-    protset: data/ncbi_flu_h3_prots.fa
-    trim: [20, 533]
-  gisaid-ectodomain:
-    protset: data/gisaid_flu_h3_prots.fa
-    trim: [20, 533]
-  ncbi-ha1:
-    protset: data/ncbi_flu_h3_prots.fa
-    trim: [20, 348]
-  gisaid-ha1:
+  gisaid-ha1-within1:
     protset: data/gisaid_flu_h3_prots.fa
     trim: [20, 348]
+    maxdiff: 1
+  gisaid-ha1-exact:
+    protset: data/gisaid_flu_h3_prots.fa
+    trim: [20, 348]
+    maxdiff: 0
+  gisaid-ectodomain-within1:
+    protset: data/gisaid_flu_h3_prots.fa
+    trim: [20, 533]
+    maxdiff: 1
+#  ncbi-ha1-within1:
+#    protset: data/ncbi_flu_h3_prots.fa
+#    trim: [20, 348]
+#    maxdiff: 1
 
-# Maximum number of difference between strain and protein in set allowed
-# to still call it a match. A protein in a `protset` is a match if it
-# has <= this many differences to the strain. Note that when the number
-# of allowed differences is >1, in principle the same protein can match
-# multiple strains. A difference is any of a single-amino-acid substitution,
-# insertion, or deletion.
-protset_maxdiffs: [0, 1]
+# Specify details for MLR fits with evofr. For each fit, specify:
+#  `date_start`: first date of sequences to keep
+#  `date_end`: last date of sequences to keep
+#  `min_counts`: only keep library strains with at least this many sequences
+#  `keep_not_in_library`: do we keep the set of strains not in library as a group
+#      to be fit in MLR, or just drop these?
+#  `keep_insufficient_counts`: do we keep the set of strains in the library with
+#      insufficient counts as a group to be fit in MLR, or just drop these?
+mlrfits:
+  2023-mincounts100:
+    date_start: 2023-01-01
+    date_end: 2023-12-31
+    min_counts: 100
+    keep_not_in_library: false
+    keep_insufficient_counts: false
+  2023-mincounts100-keepother:
+    date_start: 2023-01-01
+    date_end: 2023-12-31
+    min_counts: 100
+    keep_not_in_library: true
+    keep_insufficient_counts: true
+  2023-mincounts50:
+    date_start: 2023-01-01
+    date_end: 2023-12-31
+    min_counts: 50
+    keep_not_in_library: false
+    keep_insufficient_counts: false
+  mid2022early2024-mincounts100:
+    date_start: 2022-07-01
+    date_end: 2024-03-31
+    min_counts: 100
+    keep_not_in_library: false
+    keep_insufficient_counts: false
+  2022to2024-mincounts100:
+    date_start: 2022-01-01
+    date_end: 2024-08-01
+    min_counts: 100
+    keep_not_in_library: false
+    keep_insufficient_counts: false
 
-# For MLR, only include strains with at least this many counts over the
-# entire window
-min_counts: 50
-
-# For counts chart associated with MLR, plot counts as a rolling mean +/ this many days
-plot_window_frame_days: 14
-
-# For MLR, fit to each of the following date ranges, specified as `<start>-to-<end>`.
-dateranges:
-  - 2022-01-01-to-2024-08-01
-  - 2023-01-01-to-2024-03-01
+# MLR settings shared among all fitting:
+mlr_settings:
+  # Compute fitness differences in MLR relative to this strain.
+  pivot_strain: A/Singapore/NUH0526/2023 
+  # For counts chart associated with MLR, plot as rolling mean +/ this many days
+  plot_window_frame_days: 14
+  # Estimated serial interval for converting fitness advantages to growth rates
+  mlr_tau: 3.6  # https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3057478/
+  # Warmup steps for MCMC
+  num_warmup: 1000
+  # Sampling steps for MCMC
+  num_samples: 1000
+  # report this HPD interval (eg, 95 for HPD95%)
+  hpd_interval: 95
