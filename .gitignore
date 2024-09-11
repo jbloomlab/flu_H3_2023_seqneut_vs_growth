@@ -9,3 +9,8 @@ results/*
 !results/strain_counts
 results/strain_counts/*
 !results/strain_counts/*.csv
+
+!results/mlr
+results/mlr/*
+!results/mlr/*.csv
+!results/mlr/*.html
