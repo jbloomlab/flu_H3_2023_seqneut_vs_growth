@@ -13,7 +13,7 @@ Build the `conda` environment in [environment.yml](environment.yml), then activa
 If you are using the Hutch cluster, you can also just run via the [run_Hutch_cluster.bash](run_Hutch_cluster.bash) script, which can be submitted via `sbatch`.
 
 ## Input data and configuration
-The configuration is specified in [config.yaml](config.yaml)
+The configuration is specified in [config.yaml](config.yaml), and should be largely self-explanatory from the comments in that file.
 
 Input data are in [./data/](data):
 
@@ -46,30 +46,29 @@ For each strain in the library (specified under `strain_prots` in [config.yaml](
 We look for matches in the sets of naturally occurring sequence specified under `protsets` in [config.yaml](config.yaml).
 To determine if a sequence is a match to a protein in the library, we first trim the library proteins according to the boundaries specified in `trim` under `protsets`.
 At least some trimming is important because the library strains have chimeric signal peptides and endodomains (transmembrane domains and cytoplasmic tails).
-We then go through the natural sequences and see which ones match (contain a substring) that matches the trimmed library protein, allowing the number of differences (single amino-acid substitutions or indels) specified under `protset_maxdiffs` in [config.yaml](config.yaml).
+We then go through the natural sequences and see which ones match (contain a substring) that matches the trimmed library protein, allowing the number of differences (single amino-acid substitutions or indels) specified under `maxdiff` under `protesets` in [config.yaml](config.yaml).
 If there are multiple matches, we take the best one (fewest differences).
 If there are multiple matches with the same number of differences, we assign fractional weights to the matching (eg, a sequence that matrches two library strains is assigned a weight of 0.5 to each).
 Note that we also require these sequences to have a complete date in the `YYYY-MM-DD` format.
 
 The results of this rule are in [./results/strain_counts/](results/strain_counts) with files named as:
-  - `<protset>_<maxdiff>_counts_overall.csv`: overall number of sequences that match to each library protein (variant) for each `protset` and `maxdiff`.
-  - `<protset>_<maxdiff>_counts_by_date.csv`: number of sequences that match to each library protein for each date. This file can serve as input to [evofr](https://github.com/blab/evofr).
-  - `<protset>_<maxdiff>_strain_matches.csv`: the matches for each library protein for each sequence
+  - `<protset>_counts_overall.csv`: overall number of sequences that match to each library protein (variant) for each `protset`.
+  - `<protset>_counts_by_date.csv`: number of sequences that match to each library protein for each date. This file can serve as input to [evofr](https://github.com/blab/evofr).
+  - `<protset>_strain_matches.csv`: the matches for each library protein for each sequence
 
 Note that sequences that do not match any library proteins are assigned to the variant *other*.
 
 #### Fit MLR fitness estimates to the strain counts
 This step is executed by the rule `mlr` in [Snakefile](Snakefile).
 
-For each set of sequences matched to strains (based on the different `protset` and `maxdiff` values), we first figure out how many strains have enough sequences matching them to make a reasonable fitness estimate.
-We look at sequences in each date range specified under `dateranges` in [config.yaml](config.yaml), and consider a strain to have enough sequences to fit if it has at least `min_counts` sequences as specified in [config.yaml](config.yaml) over the total date range.
-First, we make some plots determining how many librarystrains have enough sequences, and we group the others together as a new set of library strains with insufficient counts.
-Interactive [altair](https://altair-viz.github.io) charts are created that show the counts and frequencies of each library strain.
-These charts are in [./results/mlr/](results/mlr) as files named as `results/mlr/strain_counts_<protset>_<maxdiff>_<daterange>.html`.
+There are different settings for the MLR defined under `mlrfits` in [config.yaml](config.yaml).
+First each set of sequences matched to strains (eg, the `protset`s defined above), we first figure out how many strains have enough sequences matching them to make a reasonable fitness estimate, restricting to the date ranges specified for that `mlrfit` and requiring the specified minimum counts over the date range.
+We then fit the `mlr` models, either dropping or keeping as pseudo strains the sequences not in the library or assigned to library strains with insufficient counts, as specified for that `mlrfit`.
+The fitting is done using [evofr](https://github.com/blab/evofr), with the settings specified by `mlr_settings` in [config.yaml](config.yaml).
 
-In addition, the Jupyter notebooks doing the entire analysis for this step are saved as files named as `results/mlr/mlr_<protset>_<maxdiff>_<daterange>.ipynb`.
-
-**The next step is the MLR, which is not yet implemented**
-
-**Note that the charts and notebooks created by this rule are currently not tracked in this GitHub repo.**
+The results of each `mlrfit` for each `protset` are saved in [./results/mlr/](results/mlr) and are as follows:
+  - `growth_advantages_<protset>_<mlrfit>.csv`: the growth advantages for each strain fit by MLR.
+  - `mlr_<proset>_<mlrfit>.html`: interactive [altair](https://altair-viz.github.io) chart displaying key information about the protein set and fit.
+  - `counts_to_fit_<protset>_<mlrfit>.csv`: the counts for strains being fit in MLR.
+  - `mlr_<protset>_<mlrfit>.ipynb`: Jupyter notebook that does fitting (not tracked in repo).
 
