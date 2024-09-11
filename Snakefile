@@ -8,7 +8,7 @@ rule all:
     """Target rule."""
     input:
         expand(
-            "results/mlr/counts_{protset}_{mlrfit}.html",
+            "results/mlr/mlr_{protset}_{mlrfit}.html",
             protset=config["protsets"],
             mlrfit=config["mlrfits"],
         )
@@ -39,8 +39,9 @@ rule mlr:
     input:
         counts_by_date="results/strain_counts/{protset}_counts_by_date.csv",
     output:
-        counts_chart="results/mlr/counts_{protset}_{mlrfit}.html",
+        chart="results/mlr/mlr_{protset}_{mlrfit}.html",
         counts_to_fit="results/mlr/counts_to_fit_{protset}_{mlrfit}.csv",
+        growth_advantages="results/mlr/growth_advantages_{protset}_{mlrfit}.csv",
     params:
         date_start=lambda wc: config["mlrfits"][wc.mlrfit]["date_start"],
         date_end=lambda wc: config["mlrfits"][wc.mlrfit]["date_end"],

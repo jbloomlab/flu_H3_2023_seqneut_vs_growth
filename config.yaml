@@ -91,3 +91,5 @@ mlr_settings:
   num_warmup: 1000
   # Sampling steps for MCMC
   num_samples: 1000
+  # report this HPD interval (eg, 95 for HPD95%)
+  hpd_interval: 95
