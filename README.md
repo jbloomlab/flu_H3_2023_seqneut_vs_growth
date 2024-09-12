@@ -72,3 +72,11 @@ The results of each `mlrfit` for each `protset` are saved in [./results/mlr/](re
   - `counts_to_fit_<protset>_<mlrfit>.csv`: the counts for strains being fit in MLR.
   - `mlr_<protset>_<mlrfit>.ipynb`: Jupyter notebook that does fitting (not tracked in repo).
 
+#### Compare MLR fits
+This step is executed by the rule `compare_mlr_fits` in [Snakefile](Snakefile).
+
+This rule simply compares the growth advantages estimated for the differeint `protset` and `mlrfit` settings.
+The results are saved in [./results/compare_mlr_fits](results/compare_mlr_fits):
+  - [results/compare_mlr_fits/mlrfits_corr.html](results/compare_mlr_fits/mlrfits_corr.html): plot of correlation coefficients of growth advantages for different fits.
+  - [results/compare_mlr_fits/mlrfits_scatter.html](results/compare_mlr_fits/mlrfits_scatter.html): scatter plots comparing the per-strain growth advantages for different fits.
+  - [results/compare_mlr_fits/compare_mlr_fits.ipynb](results/compare_mlr_fits/compare_mlr_fits.ipynb): Jupyter notebook that makes the plots (not tracked in repo).
