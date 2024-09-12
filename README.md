@@ -35,6 +35,8 @@ Input data are in [./data/](data):
    - Only keeping *original* sequences (excluding lab passaged)
    - Downloading just HA protein sequences.
 
+ - [data/H3_seqneut_titers.csv](data/H3_seqneut_titers.csv): titers from Caroline's 2023 H3N2 sequencing-based neutrlization experiments as taken from [https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024](https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024) on Sept-11-2024.
+
 ## Workflow and results
 The results are placed in [./results/](results), some of which may not be tracked in this GitHub repository.
 Essentially, the workflow proceeds as follows:
