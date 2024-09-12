@@ -14,3 +14,7 @@ results/strain_counts/*
 results/mlr/*
 !results/mlr/*.csv
 !results/mlr/*.html
+
+!results/compare_mlr_fits
+results/compare_mlr_fits/*
+!results/compare_mlr_fits/*.html
