@@ -82,7 +82,7 @@ mlrfits:
 # MLR settings shared among all fitting:
 mlr_settings:
   # Compute fitness differences in MLR relative to this strain.
-  pivot_strain: A/Singapore/NUH0526/2023 
+  pivot_strain: A/Massachusetts/18/2022  # vaccine strain
   # For counts chart associated with MLR, plot as rolling mean +/ this many days
   plot_window_frame_days: 14
   # Estimated serial interval for converting fitness advantages to growth rates
@@ -96,3 +96,12 @@ mlr_settings:
 
 # Experimentally measured titers
 titers: data/H3_seqneut_titers.csv
+
+# Parameters for growth versus titer comparison:
+growth_vs_titer_params:
+  nrandom: 200   # randomizations for P-value
+  # when computing fraction of sera below cutoff, this number of cutoffs in this range
+  corr_titer_cutoff_range: [40, 1000]
+  corr_titer_cutoff_points: 100  # logarithmically spaced
+  # Only keep sera that match this regex (or null to keep all sera)
+  sera_regex: "^(?!.*d28$)"  # keep day 0 (not day 28) Penn Vaccine cohort samples as pre-vax more relevant

@@ -69,6 +69,8 @@ rule growth_vs_titers:
         titers=config["titers"],
     output:
         chart="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}.html",
+    params:
+        **config["growth_vs_titer_params"],
     log:
         notebook="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}.ipynb",
     conda:
