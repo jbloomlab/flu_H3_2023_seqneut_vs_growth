@@ -1,17 +1,17 @@
 """``snakemake`` file that runs analysis."""
 
 
+import itertools
+
+
 configfile: "config.yaml"
 
 
 rule all:
     """Target rule."""
     input:
-        expand(
-            "results/mlr/mlr_{protset}_{mlrfit}.html",
-            protset=config["protsets"],
-            mlrfit=config["mlrfits"],
-        )
+        corr_chart="results/compare_mlr_fits/mlrfits_corr.html",
+        scatter_chart="results/compare_mlr_fits/mlrfits_scatter.html",
 
 
 rule strain_counts:
@@ -55,3 +55,24 @@ rule mlr:
         "environment.yml"
     notebook:
         "notebooks/mlr.py.ipynb"
+
+
+rule compare_mlr_fits:
+    """Compare the different MLR fit results."""
+    input:
+        growth_advantages=expand(
+            "results/mlr/growth_advantages_{protset}_{mlrfit}.csv",
+            protset=config["protsets"],
+            mlrfit=config["mlrfits"],
+        ),
+    output:
+        corr_chart="results/compare_mlr_fits/mlrfits_corr.html",
+        scatter_chart="results/compare_mlr_fits/mlrfits_scatter.html",
+    params:
+        protsets_mlrfits=list(itertools.product(config["protsets"], config["mlrfits"])),
+    log:
+        notebook="results/compare_mlr_fits/compare_mlr_fits.ipynb",
+    conda:
+        "environment.yml"
+    notebook:
+        "notebooks/compare_mlr_fits.py.ipynb"
