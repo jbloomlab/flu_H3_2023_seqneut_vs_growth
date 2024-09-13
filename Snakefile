@@ -2,22 +2,44 @@
 
 
 import itertools
+import re
 
 
 configfile: "config.yaml"
 
 
+# output charts
+charts = {
+    "Strain titers versus growth advantage": {
+        f"{protset=}, {mlrfit=}, {sera=}": f"results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}.html"
+        for protset in config["protsets"] for mlrfit in config["mlrfits"] for sera in config["sera"]
+    },
+    "MLR fits of growth advantage": {
+        f"{protset=}, {mlrfit=}": f"results/mlr/mlr_{protset}_{mlrfit}.html"
+        for protset in config["protsets"] for mlrfit in config["mlrfits"]
+    },
+    "Comparison of MLR fits": {
+        "correlation matrix": "results/compare_mlr_fits/mlrfits_corr.html",
+        "scatter plot": "results/compare_mlr_fits/mlrfits_scatter.html",
+    },
+}
+
+
+def extract_final_values(d):
+    """Get list of final values in nested dict."""
+    values = []
+    for key, value in d.items():
+        if isinstance(value, dict):
+            values.extend(extract_final_values(value))
+        else:
+            values.append(value)
+    return values
+
+
 rule all:
     """Target rule."""
     input:
-        "results/compare_mlr_fits/mlrfits_corr.html",
-        "results/compare_mlr_fits/mlrfits_scatter.html",
-        expand(
-            "results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}.html",
-            protset=config["protsets"],
-            mlrfit=config["mlrfits"],
-            sera=config["sera"],
-        ),
+        extract_final_values(charts),
 
 
 rule strain_counts:
