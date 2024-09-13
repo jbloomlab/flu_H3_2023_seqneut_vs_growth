@@ -13,9 +13,10 @@ rule all:
         "results/compare_mlr_fits/mlrfits_corr.html",
         "results/compare_mlr_fits/mlrfits_scatter.html",
         expand(
-            "results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}.html",
+            "results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}.html",
             protset=config["protsets"],
             mlrfit=config["mlrfits"],
+            sera=config["sera"],
         ),
 
 
@@ -66,13 +67,14 @@ rule growth_vs_titers:
     """Compare MLR estimated growth advantages to measured titers."""
     input:
         growth="results/mlr/growth_advantages_{protset}_{mlrfit}.csv",
-        titers=config["titers"],
+        titers=lambda wc: config["sera"][wc.sera]["csv"],
     output:
-        chart="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}.html",
+        chart="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}.html",
     params:
         **config["growth_vs_titer_params"],
+        sera_regex=lambda wc: config["sera"][wc.sera]["sera_regex"],
     log:
-        notebook="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}.ipynb",
+        notebook="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}.ipynb",
     conda:
         "environment.yml"
     notebook:

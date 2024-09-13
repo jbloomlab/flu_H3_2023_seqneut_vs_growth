@@ -86,8 +86,7 @@ The results are saved in [./results/compare_mlr_fits](results/compare_mlr_fits):
 #### Compare titers to growth rates
 This step is executed by the rule `growth_vs_titers` in [Snakefile](Snakefile).
 
-This rule compares the growth advantages of strains to their titers as measured in the sequencing-based neutralization assays, using the titers specified under `titers` in [config.yaml](config.yaml).
-The analysis is limited to the sera that match the regular expression specified under `sera_regex` of `growth_vs_titer_params` in [config.yaml](config.yaml).
+This rule compares the growth advantages of strains to their titers as measured in the sequencing-based neutralization assays, using the sera titers specified under `sera` in [config.yaml](config.yaml).
 
 For the comparison, we first get the set of strains that have both a growth advantage estimate and titer data.
 We then compare (correlate) the growth advantages to the titers summarized across sera in three different ways:
@@ -104,5 +103,5 @@ For the fraction below a cutoff titer, both for the actual data and each randomi
 We do this by testing `corr_titer_cutoff_points` cutoffs spaced logarithmically in `corr_titer_cutoff_range`, where these are parameters specified under `growth_vs_titer_params` in [config.yaml](config.yaml).
 
 The results of this analysis are placed in [results/growth_vs_titers](results/growth_vs_titers/) as follows:
- - `growth_vs_titers_<protset>_<mlrfit>.html`: chart showing correlations and randomizations for the cutoff method.
- - `growth_vs_titers_gisaid-ha1-exact_2023-mincounts80.ipynb`: Jupyter notebook doing the analysis
+ - `growth_vs_titers_<protset>_<mlrfit>_<sera>.html`: chart showing correlations, and randomizations for the cutoff method.
+ - `growth_vs_titers_<protset>_<mlrfit>_<sera>.ipynb`: Jupyter notebook doing the analysis.
