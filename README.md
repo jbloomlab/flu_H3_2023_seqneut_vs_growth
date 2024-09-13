@@ -77,8 +77,32 @@ The results of each `mlrfit` for each `protset` are saved in [./results/mlr/](re
 #### Compare MLR fits
 This step is executed by the rule `compare_mlr_fits` in [Snakefile](Snakefile).
 
-This rule simply compares the growth advantages estimated for the differeint `protset` and `mlrfit` settings.
+This rule simply compares the growth advantages estimated for the different `protset` and `mlrfit` settings.
 The results are saved in [./results/compare_mlr_fits](results/compare_mlr_fits):
   - [results/compare_mlr_fits/mlrfits_corr.html](results/compare_mlr_fits/mlrfits_corr.html): plot of correlation coefficients of growth advantages for different fits.
   - [results/compare_mlr_fits/mlrfits_scatter.html](results/compare_mlr_fits/mlrfits_scatter.html): scatter plots comparing the per-strain growth advantages for different fits.
-  - [results/compare_mlr_fits/compare_mlr_fits.ipynb](results/compare_mlr_fits/compare_mlr_fits.ipynb): Jupyter notebook that makes the plots (not tracked in repo).
+  - `results/compare_mlr_fits/compare_mlr_fits.ipynb`: Jupyter notebook that makes the plots (not tracked in repo).
+
+#### Compare titers to growth rates
+This step is executed by the rule `growth_vs_titers` in [Snakefile](Snakefile).
+
+This rule compares the growth advantages of strains to their titers as measured in the sequencing-based neutralization assays, using the titers specified under `titers` in [config.yaml](config.yaml).
+The analysis is limited to the sera that match the regular expression specified under `sera_regex` of `growth_vs_titer_params` in [config.yaml](config.yaml).
+
+For the comparison, we first get the set of strains that have both a growth advantage estimate and titer data.
+We then compare (correlate) the growth advantages to the titers summarized across sera in three different ways:
+  - the **geometric** mean titer
+  - the median titer
+  - the fraction of sera with a titer less than some cutoff, with the cutoff chosen to maximize the correlation
+
+For the mean and median titers, we correlate growth advantage with the log of these quantities; for the fraction below the titer we correlate with that quantity directly.
+
+We also estimate P-values for each correlation by randomizing the growth data among strains and re-computing the correlation for these randomized data (the P-value is the fraction of randomizations with as good of a correlation as the actual data).
+The P-values are one sided, and for the mean and median titer represent the fraction of randomizations with Pearson R less than the actual value, while for fraction below a cutoff they represent the fraction of randomizations with a Pearson R greater than the actual value.
+The number of randomizations is determined by the `nrandom` parameter under `growth_vs_titer_params` in [config.yaml](config.yaml).
+For the fraction below a cutoff titer, both for the actual data and each randomization we test a range of titers to pick the cutoff that maximizes the correlation.
+We do this by testing `corr_titer_cutoff_points` cutoffs spaced logarithmically in `corr_titer_cutoff_range`, where these are parameters specified under `growth_vs_titer_params` in [config.yaml](config.yaml).
+
+The results of this analysis are placed in [results/growth_vs_titers](results/growth_vs_titers/) as follows:
+ - `growth_vs_titers_<protset>_<mlrfit>.html`: chart showing correlations and randomizations for the cutoff method.
+ - `growth_vs_titers_gisaid-ha1-exact_2023-mincounts80.ipynb`: Jupyter notebook doing the analysis
