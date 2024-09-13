@@ -18,3 +18,7 @@ results/mlr/*
 !results/compare_mlr_fits
 results/compare_mlr_fits/*
 !results/compare_mlr_fits/*.html
+
+!results/growth_vs_titers
+results/growth_vs_titers/*
+!results/growth_vs_titers/*.html
