@@ -21,7 +21,7 @@ print(f"Reading strain_prots from {snakemake.input.strain_prots}")
 print(f"Trimming to {trim_start} to {trim_end}")
 strain_prots = {}
 for seq in Bio.SeqIO.parse(snakemake.input.strain_prots, "fasta"):
-    name = seq.id.split("|")[0]
+    name = seq.id
     if name in strain_prots:
         raise ValueError(f"Duplicate {name=} in {snakemake.input.strain_prots}")
     s = str(seq.seq).upper()

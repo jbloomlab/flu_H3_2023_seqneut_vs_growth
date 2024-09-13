@@ -1,0 +1,11 @@
+strain,growth_advantage_median,growth_advantage_hpd_min,growth_advantage_hpd_max
+A/Bhutan/0845/2023,1.04,1.04,1.05
+A/Finland/391/2023,0.96,0.95,0.96
+A/Jeju/1047/2023,0.93,0.92,0.94
+A/Ontario/RV00796/2023,1.09,1.08,1.09
+A/SENDAI/45/2023,0.95,0.94,0.96
+A/Schleswig-Holstein/4/2023,0.94,0.93,0.96
+A/Sydney/332/2023,1.01,1.00,1.01
+library strains insufficient counts,1.01,1.00,1.01
+strain not in library,1.02,1.01,1.02
+A/Massachusetts/18/2022,1.00,1.00,1.00

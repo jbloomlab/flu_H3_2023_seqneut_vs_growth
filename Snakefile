@@ -10,8 +10,13 @@ configfile: "config.yaml"
 rule all:
     """Target rule."""
     input:
-        corr_chart="results/compare_mlr_fits/mlrfits_corr.html",
-        scatter_chart="results/compare_mlr_fits/mlrfits_scatter.html",
+        "results/compare_mlr_fits/mlrfits_corr.html",
+        "results/compare_mlr_fits/mlrfits_scatter.html",
+        expand(
+            "results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}.html",
+            protset=config["protsets"],
+            mlrfit=config["mlrfits"],
+        ),
 
 
 rule strain_counts:
@@ -55,6 +60,23 @@ rule mlr:
         "environment.yml"
     notebook:
         "notebooks/mlr.py.ipynb"
+
+
+rule growth_vs_titers:
+    """Compare MLR estimated growth advantages to measured titers."""
+    input:
+        growth="results/mlr/growth_advantages_{protset}_{mlrfit}.csv",
+        titers=config["titers"],
+    output:
+        chart="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}.html",
+    params:
+        **config["growth_vs_titer_params"],
+    log:
+        notebook="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}.ipynb",
+    conda:
+        "environment.yml"
+    notebook:
+        "notebooks/growth_vs_titers.py.ipynb"
 
 
 rule compare_mlr_fits:

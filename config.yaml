@@ -34,10 +34,6 @@ protsets:
     protset: data/gisaid_flu_h3_prots.fa
     trim: [20, 533]
     maxdiff: 1
-#  ncbi-ha1-within1:
-#    protset: data/ncbi_flu_h3_prots.fa
-#    trim: [20, 348]
-#    maxdiff: 1
 
 # Specify details for MLR fits with evofr. For each fit, specify:
 #  `date_start`: first date of sequences to keep
@@ -48,41 +44,23 @@ protsets:
 #  `keep_insufficient_counts`: do we keep the set of strains in the library with
 #      insufficient counts as a group to be fit in MLR, or just drop these?
 mlrfits:
-  2023-mincounts100:
+  2023-mincounts80:
     date_start: 2023-01-01
     date_end: 2023-12-31
-    min_counts: 100
+    min_counts: 80
     keep_not_in_library: false
     keep_insufficient_counts: false
-  2023-mincounts100-keepother:
+  2023-mincounts80-keepother:
     date_start: 2023-01-01
     date_end: 2023-12-31
-    min_counts: 100
+    min_counts: 80
     keep_not_in_library: true
     keep_insufficient_counts: true
-  2023-mincounts50:
-    date_start: 2023-01-01
-    date_end: 2023-12-31
-    min_counts: 50
-    keep_not_in_library: false
-    keep_insufficient_counts: false
-  mid2022early2024-mincounts100:
-    date_start: 2022-07-01
-    date_end: 2024-03-31
-    min_counts: 100
-    keep_not_in_library: false
-    keep_insufficient_counts: false
-  2022to2024-mincounts100:
-    date_start: 2022-01-01
-    date_end: 2024-08-01
-    min_counts: 100
-    keep_not_in_library: false
-    keep_insufficient_counts: false
 
 # MLR settings shared among all fitting:
 mlr_settings:
   # Compute fitness differences in MLR relative to this strain.
-  pivot_strain: A/Singapore/NUH0526/2023 
+  pivot_strain: A/Massachusetts/18/2022  # vaccine strain
   # For counts chart associated with MLR, plot as rolling mean +/ this many days
   plot_window_frame_days: 14
   # Estimated serial interval for converting fitness advantages to growth rates
@@ -93,3 +71,15 @@ mlr_settings:
   num_samples: 1000
   # report this HPD interval (eg, 95 for HPD95%)
   hpd_interval: 95
+
+# Experimentally measured titers
+titers: data/H3_seqneut_titers.csv
+
+# Parameters for growth versus titer comparison:
+growth_vs_titer_params:
+  nrandom: 200   # randomizations for P-value
+  # when computing fraction of sera below cutoff, this number of cutoffs in this range
+  corr_titer_cutoff_range: [40, 1000]
+  corr_titer_cutoff_points: 100  # logarithmically spaced
+  # Only keep sera that match this regex (or null to keep all sera)
+  sera_regex: "^(?!.*d28$)"  # keep day 0 (not day 28) Penn Vaccine cohort samples as pre-vax more relevant
