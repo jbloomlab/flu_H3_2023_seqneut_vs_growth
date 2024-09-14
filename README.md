@@ -1,8 +1,22 @@
 # Growth rates of 2023 H3 influenza viruses versus sequencing-based neutralization assay titers
+Analysis by Caroline Kikawa, [Jesse Bloom](https://jbloomlab.org/), John Huddleston, [Trevor Bedford](https://bedford.io/).
 
-The overall goal of this analysis is to estimate a growth rate in the 2023-2024 timeframe (probably centered around mid to late 2023) for influenza viruses with the HA proteins in a [sequencing-based neutralization assay](https://www.biorxiv.org/content/10.1101/2024.03.08.584176v1) library to examine how neutralization titers against the strains are related to their growth rates.
+## Overview
 
-In order to do that, it is necessary to first figure out sequence counts over time for sequences that "match" (by some reasonable definition) the strains in the library, and then estimate their growth rates such as using the approaches implemented in [evofr](https://github.com/blab/evofr).
+The overall goal of this analysis is to determine if the growth rates of different human H3N2 influenza strains correlate with human neutralizing antibody titers against these strains as measured in a high-throughput [sequencing-based neutralization assay](https://www.biorxiv.org/content/10.1101/2024.03.08.584176v1).
+These titers were measured by Caroline Kikawa using a library of influenza viruses with HAs primarily from strains circulating in late 2023 against a variety of children and adult sera, with the neutralization data at [https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024](https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024).
+
+This analysis uses multinomial logistic regression as implemented in [evofr](https://github.com/blab/evofr) to estimate the growth advantages of all of the strains in the library with sufficient sequences.
+It then compares these growth advantages to the neutralization titers.
+
+Doing this analysis requires making various choices about how to count natural sequences as corresponding to sequencing-based neutralization assay library strains, how many sequences to require to make a growth advantage estimate for a strain, what timeframe to analyze, and what sera to use.
+This pipeline is structured to allow exploration of many different values for these choices.
+For a good summary of what we deem to be the most "reasonable" choice, see the following plots:
+  - [interactive chart comparing growth advantages to neutralization titers](https://jbloomlab.github.io/flu_seqneut_H3N2_2023-2024/growth_vs_titers_gisaid-ha1-within1_2023-mincounts80_child-and-adultprevax-sera.html)
+  - [interactive chart showing multinomial logistic regression fits for estimating growth advantages](https://jbloomlab.github.io/flu_seqneut_H3N2_2023-2024/mlr_gisaid-ha1-within1_2023-mincounts80.html)
+
+The key result shown by above plots is that the growth advantages correlate extremely well with the neutralization titers, with strains with lower titers having higher growth advantages.
+To explore similar plots for other values for the various choices, see [https://jbloomlab.github.io/flu_seqneut_H3N2_2023-2024](https://jbloomlab.github.io/flu_seqneut_H3N2_2023-2024); the key finding of a strong correlation turns out to be quite robust to the choices.
 
 ## Running the pipeline
 Build the `conda` environment in [environment.yml](environment.yml), then activate it and run the `snakemake` pipeline in [Snakefile](Snakefile), eg:
