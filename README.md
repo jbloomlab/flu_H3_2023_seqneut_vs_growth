@@ -12,11 +12,11 @@ It then compares these growth advantages to the neutralization titers.
 Doing this analysis requires making various choices about how to count natural sequences as corresponding to sequencing-based neutralization assay library strains, how many sequences to require to make a growth advantage estimate for a strain, what timeframe to analyze, and what sera to use.
 This pipeline is structured to allow exploration of many different values for these choices.
 For a good summary of what we deem to be the most "reasonable" choice, see the following plots:
-  - [interactive chart comparing growth advantages to neutralization titers](https://jbloomlab.github.io/flu_seqneut_H3N2_2023-2024/growth_vs_titers_gisaid-ha1-within1_2023-mincounts80_child-and-adultprevax-sera.html)
-  - [interactive chart showing multinomial logistic regression fits for estimating growth advantages](https://jbloomlab.github.io/flu_seqneut_H3N2_2023-2024/mlr_gisaid-ha1-within1_2023-mincounts80.html)
+  - [interactive chart comparing growth advantages to neutralization titers](https://jbloomlab.github.io/flu_H3_2023_seqneut_vs_growth/growth_vs_titers_gisaid-ha1-within1_2023-mincounts80_child-and-adultprevax-sera.html)
+  - [interactive chart showing multinomial logistic regression fits for estimating growth advantages](https://jbloomlab.github.io/flu_H3_2023_seqneut_vs_growth/mlr_gisaid-ha1-within1_2023-mincounts80.html)
 
 The key result shown by above plots is that the growth advantages correlate extremely well with the neutralization titers, with strains with lower titers having higher growth advantages.
-To explore similar plots for other values for the various choices, see [https://jbloomlab.github.io/flu_seqneut_H3N2_2023-2024](https://jbloomlab.github.io/flu_seqneut_H3N2_2023-2024); the key finding of a strong correlation turns out to be quite robust to the choices.
+To explore similar plots for other values for the various choices, see [https://jbloomlab.github.io/flu_H3_2023_seqneut_vs_growth](https://jbloomlab.github.io/flu_H3_2023_seqneut_vs_growth); the key finding of a strong correlation turns out to be quite robust to the choices.
 
 ## Running the pipeline
 Build the `conda` environment in [environment.yml](environment.yml), then activate it and run the `snakemake` pipeline in [Snakefile](Snakefile), eg:
