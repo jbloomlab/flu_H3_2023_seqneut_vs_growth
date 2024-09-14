@@ -72,8 +72,26 @@ mlr_settings:
   # report this HPD interval (eg, 95 for HPD95%)
   hpd_interval: 95
 
-# Experimentally measured titers
-titers: data/H3_seqneut_titers.csv
+# Experimentally measured sera titers. For each set of sera, specify the CSV
+# holding the titers plus a regex filter that the serum column is run
+# through with only matching titers retained (if that filter is `null`,
+# all sera in indicated CSV are retained.
+sera:
+  child-sera:
+    csv: data/H3_seqneut_titers.csv
+    sera_regex: "^(?!.*d28$)(?!.*d0$)"  # drop Penn Vaccine pre or post-vax (day 0 or 28)
+  adultprevax-sera:
+    csv: data/H3_seqneut_titers.csv
+    sera_regex: "d28$"  # just Penn Vaccine post-vax (day 0)
+  adultpostvax-sera:
+    csv: data/H3_seqneut_titers.csv
+    sera_regex: "d28$"  # just Penn Vaccine post-vax (day 28)
+  child-and-adultprevax-sera:
+    csv: data/H3_seqneut_titers.csv
+    sera_regex: "^(?!.*d28$)"  # drop Penn Vaccine post-vax (day 28)
+  all-sera:
+    csv: data/H3_seqneut_titers.csv
+    sera_regex: null
 
 # Parameters for growth versus titer comparison:
 growth_vs_titer_params:
@@ -81,5 +99,10 @@ growth_vs_titer_params:
   # when computing fraction of sera below cutoff, this number of cutoffs in this range
   corr_titer_cutoff_range: [40, 1000]
   corr_titer_cutoff_points: 100  # logarithmically spaced
-  # Only keep sera that match this regex (or null to keep all sera)
-  sera_regex: "^(?!.*d28$)"  # keep day 0 (not day 28) Penn Vaccine cohort samples as pre-vax more relevant
+
+# Title and heading for chart docs HTML rendered via GitHub Pages
+docs_title: |
+  Growth rates of 2023 H3 influenza viruses versus sequencing-based neutralization assay titers
+docs_heading: |
+  For the full analysis, see
+  <a href="https://github.com/jbloomlab/flu_H3_2023_seqneut_vs_growth">https://github.com/jbloomlab/flu_H3_2023_seqneut_vs_growth</a>

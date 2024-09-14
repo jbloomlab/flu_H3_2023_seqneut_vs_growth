@@ -2,21 +2,54 @@
 
 
 import itertools
+import re
 
 
 configfile: "config.yaml"
 
 
+# output charts
+charts = {
+    "Strain titers versus growth advantage": {
+        f"{protset=}": {
+            f"{mlrfit=}": {
+                f"{sera=}": f"results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}.html"
+                for sera in config["sera"]
+            }
+            for mlrfit in config["mlrfits"]
+        }
+        for protset in config["protsets"] 
+    },
+    "MLR fits of growth advantage": {
+        f"{protset=}": {
+            f"{mlrfit=}": f"results/mlr/mlr_{protset}_{mlrfit}.html"
+            for mlrfit in config["mlrfits"]
+        }
+        for protset in config["protsets"]
+    },
+    "Comparison of MLR fits": {
+        "correlation matrix": "results/compare_mlr_fits/mlrfits_corr.html",
+        "scatter plot": "results/compare_mlr_fits/mlrfits_scatter.html",
+    },
+}
+
+
+def extract_final_values(d):
+    """Get list of final values in nested dict."""
+    values = []
+    for key, value in d.items():
+        if isinstance(value, dict):
+            values.extend(extract_final_values(value))
+        else:
+            values.append(value)
+    return values
+
+
 rule all:
     """Target rule."""
     input:
-        "results/compare_mlr_fits/mlrfits_corr.html",
-        "results/compare_mlr_fits/mlrfits_scatter.html",
-        expand(
-            "results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}.html",
-            protset=config["protsets"],
-            mlrfit=config["mlrfits"],
-        ),
+        extract_final_values(charts),
+        "docs",
 
 
 rule strain_counts:
@@ -66,13 +99,14 @@ rule growth_vs_titers:
     """Compare MLR estimated growth advantages to measured titers."""
     input:
         growth="results/mlr/growth_advantages_{protset}_{mlrfit}.csv",
-        titers=config["titers"],
+        titers=lambda wc: config["sera"][wc.sera]["csv"],
     output:
-        chart="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}.html",
+        chart="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}.html",
     params:
         **config["growth_vs_titer_params"],
+        sera_regex=lambda wc: config["sera"][wc.sera]["sera_regex"],
     log:
-        notebook="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}.ipynb",
+        notebook="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}.ipynb",
     conda:
         "environment.yml"
     notebook:
@@ -98,3 +132,21 @@ rule compare_mlr_fits:
         "environment.yml"
     notebook:
         "notebooks/compare_mlr_fits.py.ipynb"
+
+
+rule charts_to_docs:
+    """Copy and write all the charts to a `./docs/` subdirectory for GitHub Pages."""
+    input:
+        extract_final_values(charts),
+    output:
+        docsdir=directory("docs"),
+    params:
+        charts=charts,
+        title=config["docs_title"],
+        heading=config["docs_heading"],
+    log:
+        "results/charts_to_docs.txt",
+    conda:
+        "environment.yml"
+    script:
+        "scripts/charts_to_docs.py"
