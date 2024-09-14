@@ -99,3 +99,10 @@ growth_vs_titer_params:
   # when computing fraction of sera below cutoff, this number of cutoffs in this range
   corr_titer_cutoff_range: [40, 1000]
   corr_titer_cutoff_points: 100  # logarithmically spaced
+
+# Title and heading for chart docs HTML rendered via GitHub Pages
+docs_title: |
+  Growth rates of 2023 H3 influenza viruses versus sequencing-based neutralization assay titers
+docs_heading: |
+  For the full analysis, see
+  <a href="https://github.com/jbloomlab/flu_H3_2023_seqneut_vs_growth">https://github.com/jbloomlab/flu_H3_2023_seqneut_vs_growth</a>

@@ -11,12 +11,21 @@ configfile: "config.yaml"
 # output charts
 charts = {
     "Strain titers versus growth advantage": {
-        f"{protset=}, {mlrfit=}, {sera=}": f"results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}.html"
-        for protset in config["protsets"] for mlrfit in config["mlrfits"] for sera in config["sera"]
+        f"{protset=}": {
+            f"{mlrfit=}": {
+                f"{sera=}": f"results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}.html"
+                for sera in config["sera"]
+            }
+            for mlrfit in config["mlrfits"]
+        }
+        for protset in config["protsets"] 
     },
     "MLR fits of growth advantage": {
-        f"{protset=}, {mlrfit=}": f"results/mlr/mlr_{protset}_{mlrfit}.html"
-        for protset in config["protsets"] for mlrfit in config["mlrfits"]
+        f"{protset=}": {
+            f"{mlrfit=}": f"results/mlr/mlr_{protset}_{mlrfit}.html"
+            for mlrfit in config["mlrfits"]
+        }
+        for protset in config["protsets"]
     },
     "Comparison of MLR fits": {
         "correlation matrix": "results/compare_mlr_fits/mlrfits_corr.html",
@@ -40,6 +49,7 @@ rule all:
     """Target rule."""
     input:
         extract_final_values(charts),
+        "docs",
 
 
 rule strain_counts:
@@ -122,3 +132,21 @@ rule compare_mlr_fits:
         "environment.yml"
     notebook:
         "notebooks/compare_mlr_fits.py.ipynb"
+
+
+rule charts_to_docs:
+    """Copy and write all the charts to a `./docs/` subdirectory for GitHub Pages."""
+    input:
+        extract_final_values(charts),
+    output:
+        docsdir=directory("docs"),
+    params:
+        charts=charts,
+        title=config["docs_title"],
+        heading=config["docs_heading"],
+    log:
+        "results/charts_to_docs.txt",
+    conda:
+        "environment.yml"
+    script:
+        "scripts/charts_to_docs.py"

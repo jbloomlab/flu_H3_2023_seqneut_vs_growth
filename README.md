@@ -1,4 +1,4 @@
-# Growth rates of influenza viruses with HAs in H3 2023-2024 sequencing-based neutralization libraries
+# Growth rates of 2023 H3 influenza viruses versus sequencing-based neutralization assay titers
 
 The overall goal of this analysis is to estimate a growth rate in the 2023-2024 timeframe (probably centered around mid to late 2023) for influenza viruses with the HA proteins in a [sequencing-based neutralization assay](https://www.biorxiv.org/content/10.1101/2024.03.08.584176v1) library to examine how neutralization titers against the strains are related to their growth rates.
 
@@ -105,3 +105,6 @@ We do this by testing `corr_titer_cutoff_points` cutoffs spaced logarithmically 
 The results of this analysis are placed in [results/growth_vs_titers](results/growth_vs_titers/) as follows:
  - `growth_vs_titers_<protset>_<mlrfit>_<sera>.html`: chart showing correlations, and randomizations for the cutoff method.
  - `growth_vs_titers_<protset>_<mlrfit>_<sera>.ipynb`: Jupyter notebook doing the analysis.
+
+#### Make `./docs/` folder with HTML plots for rendering with GitHub Pages
+The rule `charts_to_docs` makes a [./docs/](docs) folder that contains the interactive HTML charts alongside a rudimentary index that can be rendered via GitHub Pages to allow easy inspection of the chart.
