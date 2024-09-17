@@ -1,4 +1,4 @@
-name: flu_H3_2023-2024_strains_MLR
+name: flu_H3_2023_seqneut_vs_growth
 
 channels:
   - conda-forge
