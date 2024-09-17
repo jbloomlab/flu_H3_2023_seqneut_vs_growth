@@ -21,7 +21,7 @@ To explore similar plots for other values for the various choices, see [https://
 ## Running the pipeline
 Build the `conda` environment in [environment.yml](environment.yml), then activate it and run the `snakemake` pipeline in [Snakefile](Snakefile), eg:
 
-    conda activate flu_H3_2023-2024_strains_MLR
+    conda activate flu_H3_2023_seqneut_vs_growth
     snakemake -j 8 --software-deployment-method conda
 
 If you are using the Hutch cluster, you can also just run via the [run_Hutch_cluster.bash](run_Hutch_cluster.bash) script, which can be submitted via `sbatch`.
