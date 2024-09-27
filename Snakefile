@@ -105,6 +105,7 @@ rule growth_vs_titers:
     params:
         **config["growth_vs_titer_params"],
         sera_regex=lambda wc: config["sera"][wc.sera]["sera_regex"],
+        pooled_sera=lambda wc: config["sera"][wc.sera]["pooled_sera"],
     log:
         notebook="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}.ipynb",
     conda:
