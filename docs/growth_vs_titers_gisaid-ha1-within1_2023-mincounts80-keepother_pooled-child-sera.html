@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #vis.vega-embed {
+      width: 100%;
+      display: flex;
+    }
+
+    #vis.vega-embed details,
+    #vis.vega-embed details summary {
+      position: relative;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 300, "continuousHeight": 300}}, "vconcat": [{"hconcat": [{"layer": [{"mark": {"type": "circle", "color": "black", "fillOpacity": 0.5, "size": 45, "strokeOpacity": 1}, "encoding": {"stroke": {"condition": {"param": "param_1", "value": "red", "empty": false}, "value": "black"}, "strokeWidth": {"condition": {"param": "param_1", "value": 2, "empty": false}, "value": 1}, "tooltip": [{"field": "strain", "type": "nominal"}, {"field": "ga_label", "title": "growth advantage", "type": "nominal"}, {"field": "mean_titer", "format": ".2f", "title": "mean titer", "type": "quantitative"}], "x": {"axis": {"grid": false, "labelOverlap": true}, "field": "mean_titer", "scale": {"nice": false, "padding": 6, "type": "log", "zero": false}, "title": "mean titer", "type": "quantitative"}, "y": {"axis": {"grid": false, "labels": true}, "field": "growth_advantage_median", "scale": {"nice": false, "padding": 6, "zero": false}, "title": "growth advantage", "type": "quantitative"}}, "name": "view_1"}, {"mark": {"type": "rule", "color": "black"}, "encoding": {"x": {"field": "mean_titer", "type": "quantitative"}, "y": {"field": "growth_advantage_hpd_min", "type": "quantitative"}, "y2": {"field": "growth_advantage_hpd_max"}}}, {"data": {"name": "data-c61c83f41df76bd2cb5d707f6b944efe"}, "mark": {"type": "text", "align": "right", "baseline": "top", "color": "blue"}, "encoding": {"text": {"field": "label", "type": "nominal"}, "x": {"value": 148}, "y": {"value": 2}}}], "height": 150, "width": 150}], "spacing": 7, "title": {"text": "strain growth versus neutralization by 1 sera", "anchor": "middle"}}], "data": {"name": "data-00e5efd7752c32b6e313ee43e0da7db4"}, "params": [{"name": "param_1", "select": {"type": "point", "fields": ["strain"], "on": "mouseover"}, "views": ["view_1"]}], "spacing": 15, "title": {"text": "strain growth vs neutralization for gisaid-ha1-within1_2023-mincounts80-keepother_pooled-child-sera", "anchor": "middle", "dy": -20, "fontSize": 15}, "$schema": "https://vega.github.io/schema/vega-lite/v5.20.1.json", "datasets": {"data-00e5efd7752c32b6e313ee43e0da7db4": [{"strain": "A/Bhutan/0845/2023", "growth_advantage_median": 1.05, "growth_advantage_hpd_min": 1.05, "growth_advantage_hpd_max": 1.06, "mean_titer": 493.3000000000002, "median_titer": 493.3, "ga_label": "1.05 [1.05 - 1.06]"}, {"strain": "A/Busan/1301/2023", "growth_advantage_median": 0.93, "growth_advantage_hpd_min": 0.92, "growth_advantage_hpd_max": 0.95, "mean_titer": 798.3000000000001, "median_titer": 798.3, "ga_label": "0.93 [0.92 - 0.95]"}, {"strain": "A/Finland/391/2023", "growth_advantage_median": 0.94, "growth_advantage_hpd_min": 0.93, "growth_advantage_hpd_max": 0.95, "mean_titer": 627.9999999999999, "median_titer": 628.0, "ga_label": "0.94 [0.93 - 0.95]"}, {"strain": "A/Georgia/40/2023", "growth_advantage_median": 1.07, "growth_advantage_hpd_min": 1.05, "growth_advantage_hpd_max": 1.08, "mean_titer": 477.5, "median_titer": 477.5, "ga_label": "1.07 [1.05 - 1.08]"}, {"strain": "A/Jeju/1047/2023", "growth_advantage_median": 0.91, "growth_advantage_hpd_min": 0.9, "growth_advantage_hpd_max": 0.92, "mean_titer": 695.8000000000002, "median_titer": 695.8, "ga_label": "0.91 [0.90 - 0.92]"}, {"strain": "A/Ontario/RV00796/2023", "growth_advantage_median": 1.11, "growth_advantage_hpd_min": 1.1, "growth_advantage_hpd_max": 1.11, "mean_titer": 610.8, "median_titer": 610.8, "ga_label": "1.11 [1.10 - 1.11]"}, {"strain": "A/SENDAI/45/2023", "growth_advantage_median": 0.93, "growth_advantage_hpd_min": 0.92, "growth_advantage_hpd_max": 0.94, "mean_titer": 560.3999999999997, "median_titer": 560.4, "ga_label": "0.93 [0.92 - 0.94]"}, {"strain": "A/Saint-Petersburg/RII-MH144113/2023", "growth_advantage_median": 1.04, "growth_advantage_hpd_min": 1.03, "growth_advantage_hpd_max": 1.05, "mean_titer": 524.2, "median_titer": 524.2, "ga_label": "1.04 [1.03 - 1.05]"}, {"strain": "A/Schleswig-Holstein/4/2023", "growth_advantage_median": 0.93, "growth_advantage_hpd_min": 0.92, "growth_advantage_hpd_max": 0.94, "mean_titer": 650.7000000000003, "median_titer": 650.7, "ga_label": "0.93 [0.92 - 0.94]"}, {"strain": "A/Sydney/332/2023", "growth_advantage_median": 1.0, "growth_advantage_hpd_min": 1.0, "growth_advantage_hpd_max": 1.01, "mean_titer": 600.0999999999998, "median_titer": 600.1, "ga_label": "1.00 [1.00 - 1.01]"}, {"strain": "A/TECPAN/017FLU/2023", "growth_advantage_median": 0.96, "growth_advantage_hpd_min": 0.95, "growth_advantage_hpd_max": 0.97, "mean_titer": 531.4000000000001, "median_titer": 531.4, "ga_label": "0.96 [0.95 - 0.97]"}, {"strain": "A/Massachusetts/18/2022", "growth_advantage_median": 1.0, "growth_advantage_hpd_min": 1.0, "growth_advantage_hpd_max": 1.0, "mean_titer": 553.3999999999997, "median_titer": 553.4, "ga_label": "1.00 [1.00 - 1.00]"}], "data-c61c83f41df76bd2cb5d707f6b944efe": [{"stat": "mean_titer", "correlation": -0.5962494572760362, "P": 0.045, "p_str": "P = 0.045", "label": "R = -0.60 (P = 0.045)"}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>
