@@ -79,19 +79,52 @@ mlr_settings:
 sera:
   child-sera:
     csv: data/H3_seqneut_titers.csv
-    sera_regex: "^(?!.*d28$)(?!.*d0$)"  # drop Penn Vaccine pre or post-vax (day 0 or 28)
+    sera_regex: "^(?!.*d28$)(?!.*d0$)(?!.*pool$)"  # drop Penn Vaccine pre or post-vax (day 0 or 28)
+    pooled_sera: False
   adultprevax-sera:
     csv: data/H3_seqneut_titers.csv
-    sera_regex: "d28$"  # just Penn Vaccine post-vax (day 0)
+    sera_regex: "d0$"  # just Penn Vaccine post-vax (day 0)
+    pooled_sera: False
   adultpostvax-sera:
     csv: data/H3_seqneut_titers.csv
     sera_regex: "d28$"  # just Penn Vaccine post-vax (day 28)
+    pooled_sera: False
   child-and-adultprevax-sera:
     csv: data/H3_seqneut_titers.csv
-    sera_regex: "^(?!.*d28$)"  # drop Penn Vaccine post-vax (day 28)
+    sera_regex: "^(?!.*d28$)(?!.*pool$)"  # drop Penn Vaccine post-vax (day 28)
+    pooled_sera: False
   all-sera:
     csv: data/H3_seqneut_titers.csv
-    sera_regex: null
+    sera_regex: "^(?!.*pool$)"
+    pooled_sera: False
+  pooled-child-sera:
+    csv: data/H3_seqneut_titers.csv
+    sera_regex: "^SCH_pool$"
+    pooled_sera: True
+  pooled-adultprevax-sera:
+    csv: data/H3_seqneut_titers.csv
+    sera_regex: "^PennPreVax_pool$"
+    pooled_sera: True
+  pooled-adultpostvax-sera:
+    csv: data/H3_seqneut_titers.csv
+    sera_regex: "^PennPostVax_pool$" 
+    pooled_sera: True
+  pooled-child-and-adultprevax-sera:
+    csv: data/H3_seqneut_titers.csv
+    sera_regex: "^SCH_PennPreVax_pool$" 
+    pooled_sera: True
+  pooled-child-and-adultpostvax-sera:
+    csv: data/H3_seqneut_titers.csv
+    sera_regex: "^SCH_PennPostVax_pool$" 
+    pooled_sera: True
+  pooled-adultprevax-and-adultpostvax-sera:
+    csv: data/H3_seqneut_titers.csv
+    sera_regex: "^PennPreVax_PennPostVax_pool$" 
+    pooled_sera: True
+  pooled-all-sera:
+    csv: data/H3_seqneut_titers.csv
+    sera_regex: "^SCHPennPrePost_pool$"
+    pooled_sera: True
 
 # Parameters for growth versus titer comparison:
 growth_vs_titer_params:
