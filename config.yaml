@@ -1,7 +1,7 @@
 # Protein sequences in the library. Note that this file currently has
 # the full chimeric HAs used in the sequencing-based neutralization assay,
 # which have non-native signal peptide and endodomain.
-strain_prots: data/H3_library_constructs_protein.fasta
+strain_prots: data/2023-2024_H3_library_protein_constructs.fasta
 
 # Specify protein sequences to search for matches to `strain_prots` to get the
 # counts of each strain (variant) at each time.
