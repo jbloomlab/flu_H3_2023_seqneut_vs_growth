@@ -3,7 +3,7 @@ Analysis by Caroline Kikawa, [Jesse Bloom](https://jbloomlab.org/), John Huddles
 
 ## Overview
 
-The overall goal of this analysis is to determine if the growth rates of different human H3N2 influenza strains correlate with human neutralizing antibody titers against these strains as measured in a high-throughput [sequencing-based neutralization assay](https://www.biorxiv.org/content/10.1101/2024.03.08.584176v1).
+The overall goal of this analysis is to determine if the growth rates of different human H3N2 influenza strains correlate with human neutralizing antibody titers against these strains as measured in a high-throughput [sequencing-based neutralization assay](https://journals.asm.org/doi/full/10.1128/jvi.00689-24).
 These titers were measured by Caroline Kikawa using a library of influenza viruses with HAs primarily from strains circulating in late 2023 against a variety of children and adult sera, with the neutralization data at [https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024](https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024).
 
 This analysis uses multinomial logistic regression as implemented in [evofr](https://github.com/blab/evofr) to estimate the growth advantages of all of the strains in the library with sufficient sequences.
@@ -31,7 +31,7 @@ The configuration is specified in [config.yaml](config.yaml), and should be larg
 
 Input data are in [./data/](data):
 
- - [data/H3_library_constructs_protein.fasta](data/H3_library_constructs_protein.fasta): file from Caroline with the strains in the library. Note that this file has the full chimeric HAs used in the sequencing-based neutralization assay, which have non-native signal peptide and endodomain.
+ - [data/2023-2024_H3_library_protein_constructs.fasta](data/2023-2024_H3_library_protein_constructs.fasta): file with the full chimeric HAs used in the sequencing-based neutralization assay, which have non-native signal peptide and endodomain. This file is taken from [https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024/blob/main/library_design/2023-2024_H3_library_protein_constructs.fasta](https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024/blob/main/library_design/2023-2024_H3_library_protein_constructs.fasta).
 
  - [data/ncbi_flu_h3_prots.fa](data/ncbi_flu_h3_prots.fa): set of sequences downloaded from [NCBI Virus](https://www.ncbi.nlm.nih.gov/labs/virus/vssi/#/) on Sept-4-2024 selecting the following options:
    - *Protein* sequences
@@ -49,7 +49,7 @@ Input data are in [./data/](data):
    - Only keeping *original* sequences (excluding lab passaged)
    - Downloading just HA protein sequences.
 
- - [data/H3_seqneut_titers.csv](data/H3_seqneut_titers.csv): titers from Caroline's 2023 H3N2 sequencing-based neutrlization experiments as taken from [https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024](https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024) on Sept-11-2024.
+ - [data/H3_seqneut_titers.csv](data/H3_seqneut_titers.csv): titers from Caroline's 2023 H3N2 sequencing-based neutralization experiments as taken from [https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024](https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024). This is the concatenation of the titer CSVs in the [results/aggregated_titers](https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024/tree/main/results/aggregated_titers) subdirectory of that repo, concatenating the titers for the Seattle Childrens, Penn, and pooled sera groups. Namely, the file was generated with: `curl https://raw.githubusercontent.com/jbloomlab/flu_seqneut_H3N2_2023-2024/refs/heads/main/results/aggregated_titers/titers_SCH.csv https://raw.githubusercontent.com/jbloomlab/flu_seqneut_H3N2_2023-2024/refs/heads/main/results/aggregated_titers/titers_PennVaccineCohort.csv https://raw.githubusercontent.com/jbloomlab/flu_seqneut_H3N2_2023-2024/refs/heads/main/results/aggregated_titers/titers_PooledSera.csv > data/H3_seqneut_titers.csv` and then removing the duplicate header lines.
 
 ## Workflow and results
 The results are placed in [./results/](results), some of which may not be tracked in this GitHub repository.
