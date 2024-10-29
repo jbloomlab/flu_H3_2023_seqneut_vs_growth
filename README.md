@@ -3,7 +3,7 @@ Analysis by Caroline Kikawa, [Jesse Bloom](https://jbloomlab.org/), John Huddles
 
 ## Overview
 
-The overall goal of this analysis is to determine if the growth rates of different human H3N2 influenza strains correlate with human neutralizing antibody titers against these strains as measured in a high-throughput [sequencing-based neutralization assay](https://www.biorxiv.org/content/10.1101/2024.03.08.584176v1).
+The overall goal of this analysis is to determine if the growth rates of different human H3N2 influenza strains correlate with human neutralizing antibody titers against these strains as measured in a high-throughput [sequencing-based neutralization assay](https://journals.asm.org/doi/full/10.1128/jvi.00689-24).
 These titers were measured by Caroline Kikawa using a library of influenza viruses with HAs primarily from strains circulating in late 2023 against a variety of children and adult sera, with the neutralization data at [https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024](https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024).
 
 This analysis uses multinomial logistic regression as implemented in [evofr](https://github.com/blab/evofr) to estimate the growth advantages of all of the strains in the library with sufficient sequences.
