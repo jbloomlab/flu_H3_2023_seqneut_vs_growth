@@ -79,16 +79,16 @@ mlr_settings:
 sera:
   child-sera:
     csv: data/H3_seqneut_titers.csv
-    sera_regex: "^(?!.*d28$)(?!.*d0$)"  # drop Penn Vaccine pre or post-vax (day 0 or 28)
+    sera_regex: "^SCH23"  # just Seattle Children's samples from 2023
   adultprevax-sera:
     csv: data/H3_seqneut_titers.csv
-    sera_regex: "d28$"  # just Penn Vaccine post-vax (day 0)
+    sera_regex: "^PENN23_.+_d0$"  # just Penn Vaccine post-vax (day 0)
   adultpostvax-sera:
     csv: data/H3_seqneut_titers.csv
-    sera_regex: "d28$"  # just Penn Vaccine post-vax (day 28)
+    sera_regex: "^PENN23_.+_d28$"  # just Penn Vaccine post-vax (day 28)
   child-and-adultprevax-sera:
     csv: data/H3_seqneut_titers.csv
-    sera_regex: "^(?!.*d28$)"  # drop Penn Vaccine post-vax (day 28)
+    sera_regex: "^(SCH23|PENN23_.+_d0$)"  # children or Penn vaccine pre-vax
   all-sera:
     csv: data/H3_seqneut_titers.csv
     sera_regex: null
