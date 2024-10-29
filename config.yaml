@@ -75,23 +75,30 @@ mlr_settings:
 # Experimentally measured sera titers. For each set of sera, specify the CSV
 # holding the titers plus a regex filter that the serum column is run
 # through with only matching titers retained (if that filter is `null`,
-# all sera in indicated CSV are retained.
+# all sera in indicated CSV are retained. If there are also titers for
+# a pool of all of these sera, indicate that with `pool` or put `null`
+# if there is no pool.
 sera:
   child-sera:
     csv: data/H3_seqneut_titers.csv
     sera_regex: "^SCH23"  # just Seattle Children's samples from 2023
+    pool: SCH_pool
   adultprevax-sera:
     csv: data/H3_seqneut_titers.csv
     sera_regex: "^PENN23_.+_d0$"  # just Penn Vaccine post-vax (day 0)
+    pool: PennPreVax_pool
   adultpostvax-sera:
     csv: data/H3_seqneut_titers.csv
     sera_regex: "^PENN23_.+_d28$"  # just Penn Vaccine post-vax (day 28)
+    pool: PennPostVax_pool
   child-and-adultprevax-sera:
     csv: data/H3_seqneut_titers.csv
     sera_regex: "^(SCH23|PENN23_.+_d0$)"  # children or Penn vaccine pre-vax
+    pool: SCH_PennPreVax_pool
   all-sera:
     csv: data/H3_seqneut_titers.csv
     sera_regex: null
+    pool: SCHPennPrePost_pool
 
 # Parameters for growth versus titer comparison:
 growth_vs_titer_params:
