@@ -51,6 +51,8 @@ Input data are in [./data/](data):
 
  - [data/H3_seqneut_titers.csv](data/H3_seqneut_titers.csv): titers from Caroline's 2023 H3N2 sequencing-based neutralization experiments as taken from [https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024](https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024). This is the concatenation of the titer CSVs in the [results/aggregated_titers](https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024/tree/main/results/aggregated_titers) subdirectory of that repo, concatenating the titers for the Seattle Childrens, Penn, and pooled sera groups. Namely, the file was generated with: `curl https://raw.githubusercontent.com/jbloomlab/flu_seqneut_H3N2_2023-2024/refs/heads/main/results/aggregated_titers/titers_SCH.csv https://raw.githubusercontent.com/jbloomlab/flu_seqneut_H3N2_2023-2024/refs/heads/main/results/aggregated_titers/titers_PennVaccineCohort.csv https://raw.githubusercontent.com/jbloomlab/flu_seqneut_H3N2_2023-2024/refs/heads/main/results/aggregated_titers/titers_PooledSera.csv > data/H3_seqneut_titers.csv` and then removing the duplicate header lines.
 
+ - [data/muts_from_MRCA/HA_mutations_from_MRCA.csv](data/muts_from_MRCA/HA_mutations_from_MRCA.csv): number of mutations of each recent library strain relative to their MRCA. Calculated as described in README in [data/muts_from_MRCA](data/muts_from_MRCA).
+
 ## Workflow and results
 The results are placed in [./results/](results), some of which may not be tracked in this GitHub repository.
 Essentially, the workflow proceeds as follows:
