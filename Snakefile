@@ -13,7 +13,16 @@ charts = {
     "Strain titers versus growth advantage": {
         f"{protset=}": {
             f"{mlrfit=}": {
-                f"{sera=}": f"results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}.html"
+                f"{sera=}": {
+                    "growth vs titers":
+                        f"results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}.html",
+                    "simplified growth vs titers": 
+                        f"results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_corr.html",
+                    "simplified titer cutoff": 
+                        f"results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_cutoff.html",
+                    "mutations vs titers":
+                        f"results/growth_vs_titers/muts_vs_titers_{protset}_{mlrfit}_{sera}.html",
+                }
                 for sera in config["sera"]
             }
             for mlrfit in config["mlrfits"]
@@ -154,16 +163,6 @@ rule charts_to_docs:
     """Copy and write all the charts to a `./docs/` subdirectory for GitHub Pages."""
     input:
         extract_final_values(charts),
-        expand(
-            [
-                "results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_corr.html",
-                "results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_cutoff.html",
-                "results/growth_vs_titers/muts_vs_titers_{protset}_{mlrfit}_{sera}.html",
-            ],
-            protset=config["protsets"],
-            mlrfit=config["mlrfits"],
-            sera=config["sera"],
-        ),
     output:
         docsdir=directory("docs"),
     params:
