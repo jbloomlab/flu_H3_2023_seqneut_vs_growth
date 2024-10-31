@@ -60,7 +60,6 @@ rule all:
             mlrfit=config["mlrfits"],
             sera=config["sera"],
         ),
-        extract_final_values(charts),
         "docs",
 
 
