@@ -111,7 +111,7 @@ growth_vs_titer_params:
   corr_titer_cutoff_points: 100  # logarithmically spaced
 
 # how big to make "simple plots" for presentations
-simple_plot_scale: 2.25
+simple_plot_scale: 3
 
 # Title and heading for chart docs HTML rendered via GitHub Pages
 docs_title: |
