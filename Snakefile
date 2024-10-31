@@ -100,6 +100,7 @@ rule growth_vs_titers:
     input:
         growth="results/mlr/growth_advantages_{protset}_{mlrfit}.csv",
         titers=lambda wc: config["sera"][wc.sera]["csv"],
+        muts_from_mrca=config["muts_from_mrca"],
     output:
         chart="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}.html",
     params:

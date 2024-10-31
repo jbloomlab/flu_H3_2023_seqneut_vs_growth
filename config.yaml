@@ -100,6 +100,9 @@ sera:
     sera_regex: null
     pool: SCHPennPrePost_pool
 
+# information on number of mutations (from MRCA) for each strain, or `null` to not analyze
+muts_from_mrca: data/muts_from_MRCA/HA_mutations_from_MRCA.csv
+
 # Parameters for growth versus titer comparison:
 growth_vs_titer_params:
   nrandom: 200   # randomizations for P-value
