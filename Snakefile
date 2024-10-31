@@ -113,6 +113,7 @@ rule growth_vs_titers:
         chart="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}.html",
         simple_corr_chart="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_corr.html",
         simple_cutoff_chart="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_cutoff.html",
+        muts_vs_titers_chart="results/growth_vs_titers/muts_vs_titers_{protset}_{mlrfit}_{sera}.html",
         scatter_csv="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_scatter.csv",
         corr_csv="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_corr.csv",
     params:
@@ -157,6 +158,7 @@ rule charts_to_docs:
             [
                 "results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_corr.html",
                 "results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_cutoff.html",
+                "results/growth_vs_titers/muts_vs_titers_{protset}_{mlrfit}_{sera}.html",
             ],
             protset=config["protsets"],
             mlrfit=config["mlrfits"],
