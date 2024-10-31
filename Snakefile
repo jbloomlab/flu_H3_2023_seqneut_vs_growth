@@ -49,13 +49,10 @@ rule all:
     """Target rule."""
     input:
         expand(
-            "results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_scatter.csv",
-            protset=config["protsets"],
-            mlrfit=config["mlrfits"],
-            sera=config["sera"],
-        ),
-        expand(
-            "results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_corr.csv",
+            [
+                "results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_scatter.csv",
+                "results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_corr.csv",
+            ],
             protset=config["protsets"],
             mlrfit=config["mlrfits"],
             sera=config["sera"],
@@ -156,6 +153,15 @@ rule charts_to_docs:
     """Copy and write all the charts to a `./docs/` subdirectory for GitHub Pages."""
     input:
         extract_final_values(charts),
+        expand(
+            [
+                "results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_corr.html",
+                "results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_cutoff.html",
+            ],
+            protset=config["protsets"],
+            mlrfit=config["mlrfits"],
+            sera=config["sera"],
+        ),
     output:
         docsdir=directory("docs"),
     params:
