@@ -21,4 +21,4 @@ results/compare_mlr_fits/*
 
 !results/growth_vs_titers
 results/growth_vs_titers/*
-!results/growth_vs_titers/*.html
+!results/growth_vs_titers/*.csv
