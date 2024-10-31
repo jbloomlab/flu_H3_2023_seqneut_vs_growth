@@ -11,6 +11,7 @@ sys.stderr = sys.stdout = open(snakemake.log[0], "w")
 
 docsdir = snakemake.output.docsdir
 charts = snakemake.params.charts
+all_inputs = snakemake.input
 
 
 def extract_final_values(d):
@@ -28,7 +29,8 @@ if not os.path.isdir(docsdir):
     os.makedirs(docsdir, exist_ok=True)
 
 chartbases = set([])
-for chart in extract_final_values(charts):
+assert set(extract_final_values(charts)).issubset(all_inputs)
+for chart in all_inputs:
     chartbase = os.path.basename(chart)
     if chartbase in chartbases:
         raise ValueError(f"Duplicate {chartbase=} {chart=}")

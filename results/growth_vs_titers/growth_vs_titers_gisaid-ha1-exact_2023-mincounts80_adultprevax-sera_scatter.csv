@@ -1,0 +1,9 @@
+strain,growth_advantage_median,growth_advantage_hpd_min,growth_advantage_hpd_max,mean_titer,median_titer,frac_below_titer,pool_titer,nucleotide_mutations,protein_mutations,HA1_protein_mutations
+A/Bhutan/0845/2023,1.08,1.07,1.09,120,108.3,0.1316,247.2,23,10,8
+A/Finland/391/2023,0.92,0.91,0.92,156.9,146.6,0.02564,220.5,11,6,6
+A/Jeju/1047/2023,0.88,0.86,0.9,208.5,199.9,0,320.9,11,3,3
+A/Ontario/RV00796/2023,1.14,1.13,1.15,99.43,87.52,0.2308,167.9,23,10,9
+A/SENDAI/45/2023,0.9,0.89,0.91,154.1,151,0,271.8,16,6,5
+A/Schleswig-Holstein/4/2023,0.9,0.88,0.91,209.1,191.1,0,299.4,14,5,5
+A/Sydney/332/2023,1.01,1.01,1.02,119.8,96.13,0.1026,186.7,21,9,8
+A/Massachusetts/18/2022,1,1,1,159.6,145.1,0.07692,240.9,20,8,7

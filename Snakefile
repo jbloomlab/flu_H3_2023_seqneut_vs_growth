@@ -13,7 +13,16 @@ charts = {
     "Strain titers versus growth advantage": {
         f"{protset=}": {
             f"{mlrfit=}": {
-                f"{sera=}": f"results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}.html"
+                f"{sera=}": {
+                    "growth vs titers":
+                        f"results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}.html",
+                    "simplified growth vs titers": 
+                        f"results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_corr.html",
+                    "simplified titer cutoff": 
+                        f"results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_cutoff.html",
+                    "mutations vs titers":
+                        f"results/growth_vs_titers/muts_vs_titers_{protset}_{mlrfit}_{sera}.html",
+                }
                 for sera in config["sera"]
             }
             for mlrfit in config["mlrfits"]
@@ -48,7 +57,15 @@ def extract_final_values(d):
 rule all:
     """Target rule."""
     input:
-        extract_final_values(charts),
+        expand(
+            [
+                "results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_scatter.csv",
+                "results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_corr.csv",
+            ],
+            protset=config["protsets"],
+            mlrfit=config["mlrfits"],
+            sera=config["sera"],
+        ),
         "docs",
 
 
@@ -100,12 +117,19 @@ rule growth_vs_titers:
     input:
         growth="results/mlr/growth_advantages_{protset}_{mlrfit}.csv",
         titers=lambda wc: config["sera"][wc.sera]["csv"],
+        muts_from_mrca=config["muts_from_mrca"],
     output:
         chart="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}.html",
+        simple_corr_chart="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_corr.html",
+        simple_cutoff_chart="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_cutoff.html",
+        muts_vs_titers_chart="results/growth_vs_titers/muts_vs_titers_{protset}_{mlrfit}_{sera}.html",
+        scatter_csv="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_scatter.csv",
+        corr_csv="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_corr.csv",
     params:
         **config["growth_vs_titer_params"],
         sera_regex=lambda wc: config["sera"][wc.sera]["sera_regex"],
         pool=lambda wc: config["sera"][wc.sera]["pool"],
+        simple_plot_scale=config["simple_plot_scale"],
     log:
         notebook="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}.ipynb",
     conda:

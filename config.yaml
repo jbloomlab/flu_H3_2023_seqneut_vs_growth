@@ -100,12 +100,18 @@ sera:
     sera_regex: null
     pool: SCHPennPrePost_pool
 
+# information on number of mutations (from MRCA) for each strain, or `null` to not analyze
+muts_from_mrca: data/muts_from_MRCA/HA_mutations_from_MRCA.csv
+
 # Parameters for growth versus titer comparison:
 growth_vs_titer_params:
   nrandom: 200   # randomizations for P-value
   # when computing fraction of sera below cutoff, this number of cutoffs in this range
   corr_titer_cutoff_range: [40, 1000]
   corr_titer_cutoff_points: 100  # logarithmically spaced
+
+# how big to make "simple plots" for presentations
+simple_plot_scale: 3
 
 # Title and heading for chart docs HTML rendered via GitHub Pages
 docs_title: |
