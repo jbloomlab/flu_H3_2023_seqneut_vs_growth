@@ -108,9 +108,13 @@ For the comparison, we first get the set of strains that have both a growth adva
 We then compare (correlate) the growth advantages to the titers summarized across sera in three different ways:
   - the **geometric** mean titer
   - the median titer
-  - the fraction of sera with a titer less than some cutoff, with the cutoff chosen to maximize the correlation
+  - the fraction of sera with a titer less than some cutoff, with the cutoff chosen to maximize the correlation'
 
-For the mean and median titers, we correlate growth advantage with the log of these quantities; for the fraction below the titer we correlate with that quantity directly.
+When available (as specified in [config.yaml](config.yaml) under the `pool` key) we also correlate growth to the titers measured for a pool of all the sera.
+
+We also correlate the growth advantages to the number of mutations each strain has relative to the MRCA, looking at HA nucleotide mutations, ectodomain protein mutations, and HA1 protein mutaitons.
+
+For the mean and median titers, we correlate growth advantage with the log of these quantities; for the fraction below the titer and mutations we correlate with that quantity directly.
 
 We also estimate P-values for each correlation by randomizing the growth data among strains and re-computing the correlation for these randomized data (the P-value is the fraction of randomizations with as good of a correlation as the actual data).
 The P-values are one sided, and for the mean and median titer represent the fraction of randomizations with Pearson R less than the actual value, while for fraction below a cutoff they represent the fraction of randomizations with a Pearson R greater than the actual value.
@@ -118,9 +122,7 @@ The number of randomizations is determined by the `nrandom` parameter under `gro
 For the fraction below a cutoff titer, both for the actual data and each randomization we test a range of titers to pick the cutoff that maximizes the correlation.
 We do this by testing `corr_titer_cutoff_points` cutoffs spaced logarithmically in `corr_titer_cutoff_range`, where these are parameters specified under `growth_vs_titer_params` in [config.yaml](config.yaml).
 
-The results of this analysis are placed in [results/growth_vs_titers](results/growth_vs_titers/) as follows:
- - `growth_vs_titers_<protset>_<mlrfit>_<sera>.html`: chart showing correlations, and randomizations for the cutoff method.
- - `growth_vs_titers_<protset>_<mlrfit>_<sera>.ipynb`: Jupyter notebook doing the analysis.
+The results of this analysis are placed in [results/growth_vs_titers](results/growth_vs_titers/) in the form of CSVs with the correlations, HTML charts, and the run Jupyter notebooks. Only the CSVs are tracked in this directory on GitHub (but the HTML plots are rendered in `./docs/` as described below.
 
 #### Make `./docs/` folder with HTML plots for rendering with GitHub Pages
-The rule `charts_to_docs` makes a [./docs/](docs) folder that contains the interactive HTML charts alongside a rudimentary index that can be rendered via GitHub Pages to allow easy inspection of the chart.
+The rule `charts_to_docs` makes a [./docs/](docs) folder that contains the interactive HTML charts alongside a rudimentary index that can be rendered via GitHub Pages to allow easy inspection of the output charts.
