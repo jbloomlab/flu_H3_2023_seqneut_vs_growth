@@ -110,6 +110,9 @@ growth_vs_titer_params:
   corr_titer_cutoff_range: [40, 1000]
   corr_titer_cutoff_points: 100  # logarithmically spaced
 
+# how big to make "simple plots" for presentations
+simple_plot_scale: 2.25
+
 # Title and heading for chart docs HTML rendered via GitHub Pages
 docs_title: |
   Growth rates of 2023 H3 influenza viruses versus sequencing-based neutralization assay titers

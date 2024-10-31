@@ -48,6 +48,18 @@ def extract_final_values(d):
 rule all:
     """Target rule."""
     input:
+        expand(
+            "results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_scatter.csv",
+            protset=config["protsets"],
+            mlrfit=config["mlrfits"],
+            sera=config["sera"],
+        ),
+        expand(
+            "results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_corr.csv",
+            protset=config["protsets"],
+            mlrfit=config["mlrfits"],
+            sera=config["sera"],
+        ),
         extract_final_values(charts),
         "docs",
 
@@ -103,10 +115,15 @@ rule growth_vs_titers:
         muts_from_mrca=config["muts_from_mrca"],
     output:
         chart="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}.html",
+        simple_corr_chart="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_corr.html",
+        simple_cutoff_chart="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_cutoff.html",
+        scatter_csv="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_scatter.csv",
+        corr_csv="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}_corr.csv",
     params:
         **config["growth_vs_titer_params"],
         sera_regex=lambda wc: config["sera"][wc.sera]["sera_regex"],
         pool=lambda wc: config["sera"][wc.sera]["pool"],
+        simple_plot_scale=config["simple_plot_scale"],
     log:
         notebook="results/growth_vs_titers/growth_vs_titers_{protset}_{mlrfit}_{sera}.ipynb",
     conda:
