@@ -3,6 +3,6 @@ frac_below_titer,0.9747,0,P < 0.005
 mean_titer,-0.8948,0,P < 0.005
 median_titer,-0.8767,0,P < 0.005
 pool_titer,-0.7698,0.015,P = 0.015
-nucleotide_mutations,0.8751,0,P < 0.005
-protein_mutations,0.9177,0,P < 0.005
-HA1_protein_mutations,0.91,0,P < 0.005
+nucleotide_mutations,0.8847,0,P < 0.005
+protein_mutations,0.8826,0,P < 0.005
+HA1_protein_mutations,0.8865,0,P < 0.005
