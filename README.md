@@ -31,7 +31,7 @@ The configuration is specified in [config.yaml](config.yaml), and should be larg
 
 Input data are in [./data/](data):
 
- - [data/2023-2024_H3_library_protein_constructs.fasta](data/2023-2024_H3_library_protein_constructs.fasta): file with the full chimeric HAs used in the sequencing-based neutralization assay, which have non-native signal peptide and endodomain. This file is taken from [https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024/blob/main/library_design/2023-2024_H3_library_protein_constructs.fasta](https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024/blob/main/library_design/2023-2024_H3_library_protein_constructs.fasta).
+ - [data/2023-2024_H3_library_protein_constructs.fasta](data/2023-2024_H3_library_protein_constructs.fasta): file with the full chimeric HAs used in the sequencing-based neutralization assay, which have non-native signal peptide and endodomain. This file is taken from [https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024/blob/main/non-pipeline_analyses/library_design/results/2023-2024_H3_library_protein_constructs.fasta](https://github.com/jbloomlab/flu_seqneut_H3N2_2023-2024/blob/main/non-pipeline_analyses/library_design/results/2023-2024_H3_library_protein_constructs.fasta).
 
  - [data/ncbi_flu_h3_prots.fa](data/ncbi_flu_h3_prots.fa): set of sequences downloaded from [NCBI Virus](https://www.ncbi.nlm.nih.gov/labs/virus/vssi/#/) on Sept-4-2024 selecting the following options:
    - *Protein* sequences
