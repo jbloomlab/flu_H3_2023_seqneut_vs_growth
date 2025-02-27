@@ -1,0 +1,8 @@
+stat,correlation,P,p_str
+frac_below_titer,0.6811,0.09,P = 0.09
+mean_titer,-0.3765,0.09,P = 0.09
+median_titer,-0.5248,0.035,P = 0.035
+pool_titer,-0.1408,0.34,P = 0.34
+nucleotide_mutations,0.876,0,P < 0.005
+protein_mutations,0.9168,0,P < 0.005
+HA1_protein_mutations,0.8855,0,P < 0.005

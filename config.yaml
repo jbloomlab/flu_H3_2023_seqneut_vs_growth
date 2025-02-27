@@ -56,6 +56,30 @@ mlrfits:
     min_counts: 80
     keep_not_in_library: true
     keep_insufficient_counts: true
+  2023-mincounts30:
+    date_start: 2023-01-01
+    date_end: 2023-12-31
+    min_counts: 30
+    keep_not_in_library: false
+    keep_insufficient_counts: false
+  2023-mincounts40:
+    date_start: 2023-01-01
+    date_end: 2023-12-31
+    min_counts: 40
+    keep_not_in_library: false
+    keep_insufficient_counts: false
+  2023-mincounts50:
+    date_start: 2023-01-01
+    date_end: 2023-12-31
+    min_counts: 50
+    keep_not_in_library: false
+    keep_insufficient_counts: false
+  2023-mincounts60:
+    date_start: 2023-01-01
+    date_end: 2023-12-31
+    min_counts: 60
+    keep_not_in_library: false
+    keep_insufficient_counts: false
 
 # MLR settings shared among all fitting:
 mlr_settings:
