@@ -1,0 +1,21 @@
+name: multiple_regression_titers_and_muts
+
+channels:
+   - https://conda-forge.fredhutch.org/conda-forge/  # should be `conda-forge` if not on Hutch cluster
+   - https://conda-forge.fredhutch.org/bioconda/  # should be `bioconda` if not on Hutch cluster
+  # - conda-forge
+  # - bioconda
+
+dependencies:
+  - altair=5.2
+  - jupyterlab
+  - mamba
+  - markdown=3.6
+  - matplotlib
+  - pandas=2.2
+  - pip
+  - python=3.12
+  - scikit-learn
+  - statsmodels
+  - vl-convert-python
+
