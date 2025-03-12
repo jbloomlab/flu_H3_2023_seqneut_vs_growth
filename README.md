@@ -1,6 +1,8 @@
 # Growth rates of 2023 H3 influenza viruses versus sequencing-based neutralization assay titers
 Analysis by Caroline Kikawa, [Jesse Bloom](https://jbloomlab.org/), John Huddleston, [Trevor Bedford](https://bedford.io/).
 
+The paper describing these analyses is [Kikawa et al (2025)](https://www.biorxiv.org/content/10.1101/2025.03.04.641544v1).
+
 ## Overview
 
 The overall goal of this analysis is to determine if the growth rates of different human H3N2 influenza strains correlate with human neutralizing antibody titers against these strains as measured in a high-throughput [sequencing-based neutralization assay](https://journals.asm.org/doi/full/10.1128/jvi.00689-24).
